@@ -1,5 +1,5 @@
 locals {
-  control_plane_address = "192.168.1.101"
+  control_plane_address = var.cluster_address
   control_plane_address_range = "10.244.0.0/16" # Flannel
   control_plane_vm_id = 100
   control_plane_hostname = "control_plane"

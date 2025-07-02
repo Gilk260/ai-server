@@ -17,3 +17,9 @@ variable "ssh_key" {
   type = string
   sensitive = true
 }
+
+variable "cluster_address" {
+  type = string
+  default = "192.168.1.101"
+  description = "Cluster address"
+}
