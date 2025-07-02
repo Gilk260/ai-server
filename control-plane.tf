@@ -16,7 +16,6 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   agent {
     enabled = true
   }
-  # stop_on_destroy = true
 
   cpu {
     cores = 2
@@ -24,7 +23,6 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
 
   memory {
     dedicated = 4096
-    # floating  = 4096 # set equal to dedicated to enable ballooning
   }
 
   disk {
