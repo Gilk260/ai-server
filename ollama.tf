@@ -13,7 +13,7 @@ resource "kubernetes_namespace" "ollama" {
 }
 
 resource "kubernetes_deployment" "ollama" {
-  depends_on = [ kubernetes_namespace.ollama ]
+  depends_on = [ kubernetes_namespace.ollama, proxmox_virtual_environment_vm.worker ]
 
   metadata {
     name = "ollama"
