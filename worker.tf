@@ -17,18 +17,20 @@ resource "proxmox_virtual_environment_vm" "worker" {
   }
 
   cpu {
-    cores = 2
+    cores = 4
+    flags = ["+pcid"]
+    type = "host"
   }
 
   memory {
-    dedicated = 4096
+    dedicated = 8192
   }
 
   disk {
     datastore_id = "local-lvm"
     file_id      = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
     interface    = "scsi0"
-    size         = 16
+    size         = 32
   }
 
   network_device {
@@ -53,6 +55,16 @@ resource "proxmox_virtual_environment_vm" "worker" {
       username = "toto"
     }
     user_data_file_id = proxmox_virtual_environment_file.worker_config.id
+  }
+
+  kvm_arguments = "-cpu 'host,+kvm_pv_unhalt,+kvm_pv_eoi,hv_vendor_id=NV43FIX,kvm=off'"
+  machine = "q35"
+  hostpci {
+    device = "hostpci0"
+    id = "0000:01:00"
+    pcie = true
+    rombar = true
+    xvga = false
   }
 }
 
@@ -108,21 +120,27 @@ resource "proxmox_virtual_environment_file" "worker_config" {
           net.ipv6.conf.all.forwarding = 1
 
     runcmd:
+      # Requirements for K8s
       - swapoff -a
       - sed -i '/ swap / s/^/#/' /etc/fstab
       - mkdir -p /etc/containerd
       - containerd config default > /etc/containerd/config.toml
       - sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
       - systemctl restart containerd
+
       - systemctl restart sshd
       - sysctl --system
-      - echo "ABout to run dmgw"
+      - echo "About to run dmgw"
       - modprobe br_netfilter # Load br_netfilter module.
+
+      # K8s
       - curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
       - echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
       - apt-get update
       - apt-get install -y kubelet kubeadm kubectl
       - apt-mark hold kubelet kubeadm kubectl
+
+      # Qemu guest agent
       - systemctl enable --now kubelet
       - systemctl enable qemu-guest-agent
       - systemctl start qemu-guest-agent
