@@ -1,6 +1,6 @@
 locals {
   worker_address = var.worker_ip
-  worker_vm_id   = 134
+  worker_vm_id   = 133
   worker_hostname = "worker"
 }
 
