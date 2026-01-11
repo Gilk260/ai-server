@@ -2,7 +2,30 @@ locals {
   control_plane_address = var.control_plane_ip
   control_plane_vm_id = 100
   control_plane_hostname = "control_plane"
+
+  # peers = [
+  #   {
+  #     name    = "worker"
+  #     pubkey  = wireguard_asymmetric_key.worker1.public_key
+  #     address = var.worker_wg_ip
+  #   },
+  # ]
+
+  # wg_peers = join("\n", [
+  #   for p in local.peers :
+  #   templatefile("${path.module}/templates/wg-peer.tpl", {
+  #     peer_name  = p.name
+  #     peer_pubkey = p.pubkey
+  #     peer_addr   = p.address
+  #   })
+  # ])
 }
+
+# resource "wireguard_asymmetric_key" "control-plane" {
+# }
+# 
+# resource "wireguard_preshared_key" "control-plane" {
+# }
 
 resource "proxmox_virtual_environment_vm" "control_plane" {
   name = "control-plane"
@@ -100,4 +123,3 @@ resource "proxmox_virtual_environment_file" "control_plane_config" {
     file_name = "control_plane.cloud-config.yaml"
   }
 }
-

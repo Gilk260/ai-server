@@ -2,10 +2,10 @@ terraform {
   required_version = "~> 1.9"
 
   required_providers {
-    helm = {
-      source = "hashicorp/helm"
-      version = "3.0.2"
-    }
+    # helm = {
+    #   source = "hashicorp/helm"
+    #   version = "3.0.2"
+    # }
     kubernetes = {
       source = "hashicorp/kubernetes"
       version = "2.37.1"
@@ -13,6 +13,10 @@ terraform {
     proxmox = {
       source = "bpg/proxmox"
       version = "0.78.2"
+    }
+    wireguard = {
+      source = "ojford/wireguard"
+      version = "0.4.0"
     }
   }
 }
@@ -35,8 +39,11 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
-provider "helm" {
-  kubernetes = {
-    config_path = "~/.kube/config"
-  }
+provider "wireguard" {
 }
+
+# provider "helm" {
+#   kubernetes = {
+#     config_path = "~/.kube/config"
+#   }
+# }

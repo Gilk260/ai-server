@@ -24,8 +24,26 @@ variable "control_plane_ip" {
   description = "Control plane IP"
 }
 
+variable "control_plane_wg_ip" {
+  type = string
+  default = "10.0.0.8"
+  description = "Control plane Wireguard IP"
+}
+
 variable "worker_ip" {
   type = string
   default = "192.168.1.32"
   description = "Worker IP"
+}
+
+variable "worker_wg_ip" {
+  type = string
+  default = "10.0.0.32"
+  description = "Control plane Wireguard IP"
+}
+
+variable "sinkhole_ip" {
+  type = string
+  default = "192.168.1.200"
+  description = "DNS IP"
 }

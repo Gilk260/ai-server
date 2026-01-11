@@ -1,8 +1,14 @@
 locals {
   worker_address = var.worker_ip
-  worker_vm_id   = 101
+  worker_vm_id = 101
   worker_hostname = "worker"
 }
+
+# resource "wireguard_asymmetric_key" "worker" {
+# }
+# 
+# resource "wireguard_preshared_key" "worker" {
+# }
 
 resource "proxmox_virtual_environment_vm" "worker" {
   name = "worker"
@@ -28,14 +34,14 @@ resource "proxmox_virtual_environment_vm" "worker" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id      = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
-    interface    = "scsi0"
-    size         = 32
+    file_id = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
+    interface = "scsi0"
+    size = 32
   }
 
   network_device {
     bridge = "vmbr0"
-    model  = "virtio"
+    model = "virtio"
   }
 
   initialization {
@@ -115,4 +121,3 @@ resource "proxmox_virtual_environment_file" "worker_config" {
     file_name = "worker.cloud-config.yaml"
   }
 }
-
