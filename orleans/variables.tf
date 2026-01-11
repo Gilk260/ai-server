@@ -47,3 +47,13 @@ variable "sinkhole_ip" {
   default = "192.168.1.200"
   description = "DNS IP"
 }
+
+variable "adguard_password" {
+  type = string
+  sensitive = true
+}
+
+variable "adguard_password_hash" {
+  type = string
+  sensitive = true
+}
