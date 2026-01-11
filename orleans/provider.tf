@@ -2,6 +2,10 @@ terraform {
   required_version = "~> 1.9"
 
   required_providers {
+    adguard = {
+      source = "gmichels/adguard"
+      version = "1.6.2"
+    }
     # helm = {
     #   source = "hashicorp/helm"
     #   version = "3.0.2"
@@ -32,6 +36,13 @@ provider "proxmox" {
   ssh {
     agent = true
   }
+}
+
+provider "adguard" {
+  host = "${var.sinkhole_ip}:80"
+  username = "admin"
+  password = var.adguard_password
+  scheme   = "http"
 }
 
 provider "kubernetes" {
