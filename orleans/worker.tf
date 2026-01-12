@@ -48,7 +48,7 @@ resource "proxmox_virtual_environment_vm" "worker" {
     ip_config {
       ipv4 {
         address = "${local.worker_address}/24"
-        gateway = "10.0.0.1"
+        gateway = var.router_gateway
       }
 
       ipv6 {

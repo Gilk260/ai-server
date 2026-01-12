@@ -63,7 +63,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
     ip_config {
       ipv4 {
         address = "${local.control_plane_address}/24"
-        gateway = "10.0.0.1"
+        gateway = var.router_gateway
       }
 
       ipv6 {
