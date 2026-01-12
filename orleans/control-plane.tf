@@ -1,6 +1,6 @@
 locals {
-  control_plane_address = var.control_plane_ip
-  control_plane_vm_id = 100101
+  control_plane_address  = var.control_plane_ip
+  control_plane_vm_id    = 100101
   control_plane_hostname = "control_plane"
 
   # peers = [
@@ -28,10 +28,10 @@ locals {
 # }
 
 resource "proxmox_virtual_environment_vm" "control_plane" {
-  name = "control-plane"
+  name        = "control-plane"
   description = "Control plane for AI's inference cluster"
-  tags = ["k8s", "ai", "control_plane", "terraform"]
-  node_name = data.proxmox_virtual_environment_node.server.node_name
+  tags        = ["k8s", "ai", "control_plane", "terraform"]
+  node_name   = data.proxmox_virtual_environment_node.server.node_name
 
   vm_id = local.control_plane_vm_id
 
@@ -78,7 +78,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
 resource "proxmox_virtual_environment_file" "control_plane_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name = data.proxmox_virtual_environment_node.server.node_name
+  node_name    = data.proxmox_virtual_environment_node.server.node_name
 
   source_raw {
     data = <<-EOF

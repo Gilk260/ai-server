@@ -1,19 +1,19 @@
 locals {
-  sinkhole_address = var.sinkhole_ip
-  sinkhole_vm_id = 1000
+  sinkhole_address  = var.sinkhole_ip
+  sinkhole_vm_id    = 1000
   sinkhole_hostname = "sinkhole"
 }
 
 resource "adguard_config" "main" {
   dhcp = {
-    enabled = true
+    enabled   = true
     interface = "eth0"
     ipv4_settings = {
-      gateway_ip = "192.168.1.1"
+      gateway_ip     = "192.168.1.1"
       lease_duration = 86400
-      range_start = "192.168.1.2"
-      range_end = "192.168.1.253"
-      subnet_mask = "255.255.255.0"
+      range_start    = "192.168.1.2"
+      range_end      = "192.168.1.253"
+      subnet_mask    = "255.255.255.0"
     }
   }
 
@@ -22,7 +22,7 @@ resource "adguard_config" "main" {
       "https://dns.cloudflare.com/dns-query",
       "https://dns.quad9.net/dns-query",
     ]
-    upstream_mode = "parallel",
+    upstream_mode             = "parallel",
     use_private_ptr_resolvers = true
     local_ptr_upstreams = [
       "192.168.1.1"
@@ -40,7 +40,7 @@ resource "adguard_config" "main" {
 
 resource "adguard_list_filter" "hagezi_threat_intelligence_feeds" {
   name = "HaGeZi's Threat Intelligence Feeds"
-  url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt"
+  url  = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_44.txt"
 
   depends_on = [
     proxmox_virtual_environment_vm.dns_sinkhole
@@ -71,9 +71,9 @@ resource "proxmox_virtual_environment_vm" "dns_sinkhole" {
   disk {
     datastore_id = "local-lvm"
     # Reusing your existing downloaded image resource
-    file_id      = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
-    interface    = "scsi0"
-    size         = 8
+    file_id   = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
+    interface = "scsi0"
+    size      = 8
   }
 
   network_device {
@@ -94,7 +94,7 @@ resource "proxmox_virtual_environment_vm" "dns_sinkhole" {
 
     user_account {
       # Use a strong password or rely purely on SSH keys
-      password = "changeme123" 
+      password = "changeme123"
       username = "adminuser"
     }
 

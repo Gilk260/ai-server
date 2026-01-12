@@ -1,5 +1,5 @@
 locals {
-  router_vm_id = 10001
+  router_vm_id    = 10001
   router_hostname = "router"
 }
 
@@ -10,12 +10,12 @@ resource "proxmox_virtual_environment_network_linux_bridge" "k8s_network" {
 }
 
 resource "proxmox_virtual_environment_vm" "router" {
-  depends_on = [ proxmox_virtual_environment_network_linux_bridge.k8s_network ]
+  depends_on = [proxmox_virtual_environment_network_linux_bridge.k8s_network]
 
-  name = local.router_hostname
+  name      = local.router_hostname
   node_name = data.proxmox_virtual_environment_node.server.node_name
-  vm_id = local.router_vm_id
-  tags = ["router", "terraform", "vlan"]
+  vm_id     = local.router_vm_id
+  tags      = ["router", "terraform", "vlan"]
 
   agent {
     enabled = true
@@ -33,9 +33,9 @@ resource "proxmox_virtual_environment_vm" "router" {
   disk {
     datastore_id = "local-lvm"
     # Reusing your existing downloaded image resource
-    file_id      = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
-    interface    = "scsi0"
-    size         = 8
+    file_id   = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
+    interface = "scsi0"
+    size      = 8
   }
 
   # Network Interface 1: WAN (Internet Access)
@@ -60,7 +60,7 @@ resource "proxmox_virtual_environment_vm" "router" {
     # LAN IP (This becomes the Gateway IP: 10.0.0.1)
     ip_config {
       ipv4 {
-        address = "10.0.0.1/16"
+        address = "${var.router_gateway}/16"
       }
     }
 
@@ -71,7 +71,7 @@ resource "proxmox_virtual_environment_vm" "router" {
 resource "proxmox_virtual_environment_file" "router_cloud_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name = data.proxmox_virtual_environment_node.server.node_name
+  node_name    = data.proxmox_virtual_environment_node.server.node_name
 
   source_raw {
     data = <<-EOF
