@@ -20,7 +20,7 @@ variable "ssh_key" {
 
 variable "control_plane_ip" {
   type = string
-  default = "192.168.1.8"
+  default = "10.0.10.1"
   description = "Control plane IP"
 }
 
@@ -32,7 +32,7 @@ variable "control_plane_wg_ip" {
 
 variable "worker_ip" {
   type = string
-  default = "192.168.1.32"
+  default = "10.0.100.1"
   description = "Worker IP"
 }
 

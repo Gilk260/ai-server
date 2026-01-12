@@ -1,6 +1,6 @@
 locals {
   control_plane_address = var.control_plane_ip
-  control_plane_vm_id = 100
+  control_plane_vm_id = 100101
   control_plane_hostname = "control_plane"
 
   # peers = [
@@ -55,7 +55,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   }
 
   network_device {
-    bridge = "vmbr0"
+    bridge = "vmbr1"
     model  = "virtio"
   }
 
@@ -63,7 +63,7 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
     ip_config {
       ipv4 {
         address = "${local.control_plane_address}/24"
-        gateway = "192.168.1.1"
+        gateway = "10.0.0.1"
       }
 
       ipv6 {

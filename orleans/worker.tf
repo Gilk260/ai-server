@@ -1,6 +1,6 @@
 locals {
   worker_address = var.worker_ip
-  worker_vm_id = 101
+  worker_vm_id = 1001001
   worker_hostname = "worker"
 }
 
@@ -40,7 +40,7 @@ resource "proxmox_virtual_environment_vm" "worker" {
   }
 
   network_device {
-    bridge = "vmbr0"
+    bridge = "vmbr1"
     model = "virtio"
   }
 
@@ -48,7 +48,7 @@ resource "proxmox_virtual_environment_vm" "worker" {
     ip_config {
       ipv4 {
         address = "${local.worker_address}/24"
-        gateway = "192.168.1.1"
+        gateway = "10.0.0.1"
       }
 
       ipv6 {
