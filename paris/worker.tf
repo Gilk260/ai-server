@@ -1,14 +1,14 @@
 locals {
-  worker_address = var.worker_ip
-  worker_vm_id   = 133
+  worker_address  = var.worker_ip
+  worker_vm_id    = 133
   worker_hostname = "worker"
 }
 
 resource "proxmox_virtual_environment_vm" "worker" {
-  name = "worker"
+  name        = "worker"
   description = "Worker for AI's inference cluster"
-  tags = ["k8s", "ai", "worker", "terraform"]
-  node_name = data.proxmox_virtual_environment_node.server.node_name
+  tags        = ["k8s", "ai", "worker", "terraform"]
+  node_name   = data.proxmox_virtual_environment_node.server.node_name
 
   vm_id = local.worker_vm_id
 
@@ -56,20 +56,20 @@ resource "proxmox_virtual_environment_vm" "worker" {
   }
 
   kvm_arguments = "-cpu 'host,+kvm_pv_unhalt,+kvm_pv_eoi,hv_vendor_id=NV43FIX,kvm=off'"
-  machine = "q35"
+  machine       = "q35"
   hostpci {
     device = "hostpci0"
-    id = "0000:01:00"
-    pcie = true
+    id     = "0000:01:00"
+    pcie   = true
     rombar = true
-    xvga = false
+    xvga   = false
   }
 }
 
 resource "proxmox_virtual_environment_file" "worker_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name = data.proxmox_virtual_environment_node.server.node_name
+  node_name    = data.proxmox_virtual_environment_node.server.node_name
 
   source_raw {
     data = <<-EOF

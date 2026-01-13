@@ -3,15 +3,15 @@ terraform {
 
   required_providers {
     proxmox = {
-      source = "bpg/proxmox"
+      source  = "bpg/proxmox"
       version = "0.78.2"
     }
   }
 }
 
 provider "proxmox" {
-  username  = var.virtual_environment_username
-  password  = var.virtual_environment_password
+  username = var.virtual_environment_username
+  password = var.virtual_environment_password
 
   endpoint = var.virtual_environment_endpoint
 

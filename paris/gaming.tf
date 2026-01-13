@@ -1,22 +1,22 @@
 locals {
-  gaming_address = var.gaming_ip
-  gaming_vm_id = 134
+  gaming_address  = var.gaming_ip
+  gaming_vm_id    = 134
   gaming_hostname = "gaming-rig"
 }
 
 resource "proxmox_virtual_environment_vm" "gaming" {
-  name = local.gaming_hostname
+  name        = local.gaming_hostname
   description = "Gaming VM"
-  tags = ["k8s", "ai", "gaming", "terraform"]
-  node_name = data.proxmox_virtual_environment_node.server.node_name
-  vm_id = local.gaming_vm_id
+  tags        = ["k8s", "ai", "gaming", "terraform"]
+  node_name   = data.proxmox_virtual_environment_node.server.node_name
+  vm_id       = local.gaming_vm_id
 
   bios = "ovmf"
 
   efi_disk {
     datastore_id = "local-lvm"
-    file_format = "raw"
-    type = "4m"
+    file_format  = "raw"
+    type         = "4m"
   }
 
   agent {
@@ -24,7 +24,7 @@ resource "proxmox_virtual_environment_vm" "gaming" {
   }
 
   cpu {
-    type = "host"
+    type  = "host"
     cores = 4
   }
 
@@ -34,16 +34,16 @@ resource "proxmox_virtual_environment_vm" "gaming" {
 
   disk {
     datastore_id = "local-lvm"
-    file_id = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
-    interface = "scsi0"
-    size = 128
+    file_id      = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
+    interface    = "scsi0"
+    size         = 128
     # discard      = "on"
     # ssd          = true
   }
 
   network_device {
     bridge = "vmbr0"
-    model = "virtio"
+    model  = "virtio"
   }
 
   initialization {
@@ -66,7 +66,7 @@ resource "proxmox_virtual_environment_vm" "gaming" {
   }
 
   kvm_arguments = "-cpu 'host,+kvm_pv_unhalt,+kvm_pv_eoi,hv_vendor_id=NV43FIX,kvm=off'"
-  machine = "q35"
+  machine       = "q35"
 
   # Video
   # hostpci {
@@ -91,7 +91,7 @@ resource "proxmox_virtual_environment_vm" "gaming" {
 resource "proxmox_virtual_environment_file" "gaming_config" {
   content_type = "snippets"
   datastore_id = "local"
-  node_name = data.proxmox_virtual_environment_node.server.node_name
+  node_name    = data.proxmox_virtual_environment_node.server.node_name
 
   source_raw {
     data = <<-EOF
