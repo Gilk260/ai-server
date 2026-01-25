@@ -18,18 +18,25 @@ resource "proxmox_virtual_environment_vm" "worker" {
 
   vm_id = local.worker_vm_id
 
+  bios = "ovmf"
+
   agent {
     enabled = true
   }
 
   cpu {
     cores = 4
-    flags = ["+pcid"]
     type  = "host"
   }
 
   memory {
     dedicated = 8192
+  }
+
+  efi_disk {
+    datastore_id = "local-lvm"
+    file_format  = "raw"
+    type         = "4m"
   }
 
   disk {
@@ -63,14 +70,16 @@ resource "proxmox_virtual_environment_vm" "worker" {
     user_data_file_id = proxmox_virtual_environment_file.worker_config.id
   }
 
-  kvm_arguments = "-cpu 'host,+kvm_pv_unhalt,+kvm_pv_eoi,hv_vendor_id=NV43FIX,kvm=off'"
+  kvm_arguments = "-cpu host,kvm=off,hv_vendor_id=null"
   machine       = "q35"
+
   hostpci {
     device = "hostpci0"
     id     = "0000:01:00"
-    pcie   = true
-    rombar = true
+    pcie   = false
     xvga   = false
+    rombar = true
+    # rom_file = "gtx950m.bin"
   }
 }
 
@@ -98,6 +107,10 @@ resource "proxmox_virtual_environment_file" "worker_config" {
     packages:
       - qemu-guest-agent
       - python3
+      - nvidia-driver-470
+      - nvidia-utils-470
+      - nvidia-headless-470
+      - nvidia-headless-no-dkms-470
 
     # Let iptables see bridged traffic
     write_files:
@@ -110,8 +123,22 @@ resource "proxmox_virtual_environment_file" "worker_config" {
           net.bridge.bridge-nf-call-iptables = 1
           net.ipv4.ip_forward = 1
           net.ipv6.conf.all.forwarding = 1
+      - path: /etc/modprobe.d/blacklist-nouveau.conf
+        content: |
+          blacklist nouveau
+          options nouveau modeset=0
+      - path: /etc/default/grub.d/99-passthrough.cfg
+        content: |
+          GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT nvidia-drm.modeset=0 pcie_aspm=off iommu=igfx_off"
+      - path: /etc/modprobe.d/nvidia.conf
+        content: |
+          options nvidia NVreg_EnableMSI=0
 
     runcmd:
+      - apt-mark hold nvidia-driver-470
+      - update-grub
+      - update-initramfs -u
+
       - systemctl enable qemu-guest-agent
       - systemctl start qemu-guest-agent
       - modprobe br_netfilter

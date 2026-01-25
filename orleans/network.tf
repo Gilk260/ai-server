@@ -91,9 +91,23 @@ resource "proxmox_virtual_environment_file" "router_cloud_config" {
       - path: /etc/sysctl.d/99-ip-forwarding.conf
         content: |
           net.ipv4.ip_forward=1
+      # FORCE DNS: Override DHCP DNS settings
+      # We edit resolved.conf to prioritize AdGuard (192.168.1.200)
+      # Fallback to 1.1.1.1 if AdGuard dies
+      - path: /etc/systemd/resolved.conf
+        owner: root:root
+        permissions: '0644'
+        content: |
+          [Resolve]
+          DNS=192.168.1.200 1.1.1.1
+          # 'Domains=~.' tells systemd to use this DNS for EVERYTHING
+          Domains=~.
 
     runcmd:
       - systemctl enable --now qemu-guest-agent
+
+      # Apply the DNS Override
+      - systemctl restart systemd-resolved
 
       # Apply the forwarding rule immediately
       - sysctl -p /etc/sysctl.d/99-ip-forwarding.conf
