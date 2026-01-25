@@ -14,6 +14,14 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "2.37.1"
     }
+    null = {
+      source = "hashicorp/null"
+      version = "3.2.4"
+    }
+    opnsense = {
+      source = "browningluke/opnsense"
+      version = "0.16.1"
+    }
     proxmox = {
       source  = "bpg/proxmox"
       version = "0.78.2"

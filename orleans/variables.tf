@@ -8,12 +8,32 @@ variable "virtual_environment_password" {
   sensitive = true
 }
 
+variable "virtual_environment_ip" {
+  type = string
+  sensitive = true
+}
+
 variable "virtual_environment_endpoint" {
   type      = string
   sensitive = true
 }
 
 variable "ssh_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "opnsense_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "opnsense_secret" {
+  type      = string
+  sensitive = true
+}
+
+variable "personal_key" {
   type      = string
   sensitive = true
 }
@@ -62,4 +82,30 @@ variable "router_gateway" {
   type        = string
   default     = "10.0.0.1"
   description = "Router Gateway"
+}
+
+variable "iso_vms" {
+  type = map(object({
+    vmid        = number
+    cores       = number
+    memory      = number
+    disk_size   = number
+    os_key      = string
+    bridges     = list(string)
+    passthrough = bool
+    pci_id      = string
+  }))
+}
+
+variable "cloud_vms" {
+  type = map(object({
+    vmid      = number
+    cores     = number
+    memory    = number
+    ip        = string
+    disk_size = number
+    os_key    = string
+    packages  = optional(list(string), [])
+    runcmd    = optional(list(string), [])
+  }))
 }

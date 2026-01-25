@@ -23,6 +23,13 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
+provider "opnsense" {
+  uri        = "https://192.168.1.20"
+  api_key    = var.opnsense_key
+  api_secret = var.opnsense_secret
+  allow_insecure = true
+}
+
 provider "wireguard" {
 }
 
