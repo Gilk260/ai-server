@@ -39,3 +39,5 @@ terraform.rc
 admin.conf
 **/.iso
 **/*.pkrvars.hcl
+**/wireguard/*
+**/k3s-config.yaml
