@@ -9,7 +9,7 @@ variable "virtual_environment_password" {
 }
 
 variable "virtual_environment_ip" {
-  type = string
+  type      = string
   sensitive = true
 }
 
@@ -19,21 +19,6 @@ variable "virtual_environment_endpoint" {
 }
 
 variable "ssh_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "opnsense_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "opnsense_secret" {
-  type      = string
-  sensitive = true
-}
-
-variable "personal_key" {
   type      = string
   sensitive = true
 }

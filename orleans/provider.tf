@@ -24,9 +24,9 @@ provider "kubernetes" {
 }
 
 provider "opnsense" {
-  uri        = "https://192.168.1.20"
-  api_key    = var.opnsense_key
-  api_secret = var.opnsense_secret
+  uri            = "https://192.168.1.20"
+  api_key        = sensitive(chomp(file("./opnsense/api.key")))
+  api_secret     = sensitive(chomp(file("./opnsense/api.secret")))
   allow_insecure = true
 }
 

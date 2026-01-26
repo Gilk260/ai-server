@@ -43,9 +43,9 @@ resource "proxmox_virtual_environment_vm" "infra_iso" {
   dynamic "hostpci" {
     for_each = each.value.passthrough ? [1] : []
     content {
-      device  = "hostpci0"
-      id      = each.value.pci_id
-      pcie    = true
+      device = "hostpci0"
+      id     = each.value.pci_id
+      pcie   = true
       rombar = true
     }
   }
@@ -59,7 +59,7 @@ resource "proxmox_virtual_environment_vm" "infra_iso" {
   # BOOT PRIORITY: HIGH (Start first)
   startup {
     order      = 1
-    up_delay   = 30  # Wait 30s after start before launching the next VM
+    up_delay   = 30 # Wait 30s after start before launching the next VM
     down_delay = 30
   }
 }

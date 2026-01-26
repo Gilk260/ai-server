@@ -15,7 +15,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
     })
 
     file_name = "${each.key}.cloud-config.yaml"
- }
+  }
 }
 
 # 2. Create the VMs

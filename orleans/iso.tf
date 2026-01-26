@@ -13,8 +13,8 @@ resource "proxmox_virtual_environment_download_file" "opnsense_iso" {
   # Using a reliable mirror. Note: bz2 decompression happens automatically by Proxmox if supported, 
   # but straight ISO is safer for automation if available.
   # This URL is an example. Verify the latest link from OpnSense site.
-  url          = "https://pkg.opnsense.org/releases/25.7/OPNsense-25.7-dvd-amd64.iso.bz2"
-  file_name    = "OPNsense-25.7-dvd-amd64.iso"
+  url                     = "https://pkg.opnsense.org/releases/25.7/OPNsense-25.7-dvd-amd64.iso.bz2"
+  file_name               = "OPNsense-25.7-dvd-amd64.iso"
   decompression_algorithm = "bz2"
 }
 
