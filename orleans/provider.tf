@@ -19,8 +19,7 @@ provider "adguard" {
 }
 
 provider "kubernetes" {
-  host        = "https://${var.control_plane_ip}:6443"
-  config_path = "~/.kube/config"
+  config_path = "${path.module}/k3s-config.yaml"
 }
 
 provider "opnsense" {
@@ -33,8 +32,8 @@ provider "opnsense" {
 provider "wireguard" {
 }
 
-# provider "helm" {
-#   kubernetes = {
-#     config_path = "~/.kube/config"
-#   }
-# }
+provider "helm" {
+  kubernetes = {
+    config_path = "${path.module}/k3s-config.yaml"
+  }
+}
