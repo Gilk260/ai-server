@@ -33,9 +33,15 @@ write_files:
       overlay
   - path: /etc/sysctl.d/k3s.conf
     content: |
-      net.bridge.bridge-nf-call-ip6tables = 1
       net.bridge.bridge-nf-call-iptables = 1
+      net.bridge.bridge-nf-call-ip6tables = 1
       net.ipv4.ip_forward = 1
+%{ if mgmt_ip != null ~}
+  - path: /etc/rancher/k3s/config.yaml
+    content: |
+      tls-san:
+        - ${mgmt_ip}
+%{ endif ~}
 
 runcmd:
   - systemctl enable --now qemu-guest-agent
