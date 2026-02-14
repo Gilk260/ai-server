@@ -12,6 +12,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
       ssh_key  = var.ssh_key
       packages = each.value.packages
       runcmd   = each.value.runcmd
+      mgmt_ip  = each.value.mgmt_ip
     })
 
     file_name = "${each.key}.cloud-config.yaml"
@@ -56,11 +57,29 @@ resource "proxmox_virtual_environment_vm" "compute_cloud" {
     model  = "virtio"
   }
 
+  # Management NIC on home LAN (bypasses OPNsense for direct access)
+  dynamic "network_device" {
+    for_each = each.value.mgmt_ip != null ? [1] : []
+    content {
+      bridge = "vmbr0"
+      model  = "virtio"
+    }
+  }
+
   initialization {
     ip_config {
       ipv4 {
-        address = "${each.value.ip}/24"
+        address = "${each.value.ip}/16"
         gateway = "10.0.0.1" # OpnSense LAN IP
+      }
+    }
+    # Management IP on home LAN
+    dynamic "ip_config" {
+      for_each = each.value.mgmt_ip != null ? [1] : []
+      content {
+        ipv4 {
+          address = "${each.value.mgmt_ip}/24"
+        }
       }
     }
     user_data_file_id = proxmox_virtual_environment_file.cloud_config[each.key].id
@@ -86,17 +105,24 @@ resource "null_resource" "k3s_kubeconfig" {
 
   provisioner "local-exec" {
     command = <<EOT
-      echo "⏳ Waiting for K3s to initialize..."
-      sleep 30  # Give K3s time to generate the file
+      echo "Waiting for K3s to initialize..."
+      sleep 30
 
-      echo "📥 Fetching kubeconfig..."
-      ssh -o StrictHostKeyChecking=no -J root@${var.virtual_environment_ip} ubuntu@${var.cloud_vms["k3s-master"].ip} "cat /home/ubuntu/k3s.yaml" > k3s-config.yaml
+      echo "Fetching kubeconfig..."
+      ssh -o StrictHostKeyChecking=no -J root@${var.virtual_environment_ip} ubuntu@${var.cloud_vms["k3s-master"].ip} "sudo cat /etc/rancher/k3s/k3s.yaml" > k3s-config.yaml
 
-      echo "🔧 Patching kubeconfig IP..."
-      sed -i 's/127.0.0.1/${var.cloud_vms["k3s-master"].ip}/g' k3s-config.yaml
+      MGMT_IP="${coalesce(var.cloud_vms["k3s-master"].mgmt_ip, var.cloud_vms["k3s-master"].ip)}"
 
-      echo "✅ Config saved to $(pwd)/k3s-config.yaml"
-      echo "👉 Run: export KUBECONFIG=$(pwd)/k3s-config.yaml"
+      echo "Patching kubeconfig server to $MGMT_IP..."
+      sed -i "s/127.0.0.1/$MGMT_IP/g" k3s-config.yaml
+
+      echo "Renaming context and cluster to ${var.cluster_name}..."
+      export KUBECONFIG=$(pwd)/k3s-config.yaml
+      kubectl config rename-context default ${var.cluster_name}
+      kubectl config set clusters.default.name ${var.cluster_name} 2>/dev/null || true
+      sed -i 's/: default$/: ${var.cluster_name}/g' k3s-config.yaml
+
+      echo "Config saved to $(pwd)/k3s-config.yaml (context: ${var.cluster_name})"
     EOT
   }
 }
