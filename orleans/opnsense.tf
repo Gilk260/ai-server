@@ -39,7 +39,7 @@ resource "opnsense_firewall_filter" "allow_wireguard_wan" {
     # Optional
     ip_protocol = "inet" # IPv4
     destination = {
-      port = string(local.wireguard_port)
+      port = tostring(local.wireguard_port)
     }
   }
 }
