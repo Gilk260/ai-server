@@ -63,6 +63,12 @@ variable "adguard_password_hash" {
   sensitive = true
 }
 
+variable "cluster_name" {
+  type        = string
+  default     = "orleans"
+  description = "Name for the kubeconfig context and cluster"
+}
+
 variable "router_gateway" {
   type        = string
   default     = "10.0.0.1"
@@ -88,6 +94,7 @@ variable "cloud_vms" {
     cores     = number
     memory    = number
     ip        = string
+    mgmt_ip   = optional(string)
     disk_size = number
     os_key    = string
     packages  = optional(list(string), [])
