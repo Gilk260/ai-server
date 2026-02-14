@@ -1,0 +1,19 @@
+global:
+  domain: argocd-orleans.gilk.fr
+  addPrometheusAnnotations: true
+
+server:
+  service:
+    type: NodePort
+    nodePortHttps: 30443
+
+configs:
+  params:
+    server.insecure: true
+  repositories:
+    infra-gitops:
+      url: https://github.com/Gilk260/infra-gitops
+      type: git
+      githubAppID: "2864423"
+      githubAppInstallationID: "110100546"
+      name: infra-gitops
