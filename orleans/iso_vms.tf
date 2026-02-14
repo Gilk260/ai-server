@@ -29,6 +29,9 @@ resource "proxmox_virtual_environment_vm" "infra_iso" {
     file_id = local.image_map[each.value.os_key]
   }
 
+  # Boot from disk first, then cdrom (ISO only needed for initial install)
+  boot_order = ["scsi0", "ide3", "net0"]
+
   # Dynamic Network: Loops through the list of bridges (e.g. OpnSense gets 3)
   dynamic "network_device" {
     for_each = each.value.bridges
