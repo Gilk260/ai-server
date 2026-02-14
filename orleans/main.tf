@@ -6,10 +6,10 @@ terraform {
       source  = "gmichels/adguard"
       version = "1.6.2"
     }
-    # helm = {
-    #   source = "hashicorp/helm"
-    #   version = "3.0.2"
-    # }
+    helm = {
+      source = "hashicorp/helm"
+      version = "3.1.1"
+    }
     kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "2.37.1"
