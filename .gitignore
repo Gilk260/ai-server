@@ -40,4 +40,6 @@ admin.conf
 **/.iso
 **/*.pkrvars.hcl
 **/wireguard/*
+**/opnsense/*
 **/k3s-config.yaml
+**/private_key/*
