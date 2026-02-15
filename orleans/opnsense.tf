@@ -23,6 +23,10 @@ resource "opnsense_wireguard_server" "lab_vpn" {
   peers = [opnsense_wireguard_client.laptop.id]
 }
 
+###############################################################################
+#######                         FIREWALL FILTER                         #######
+###############################################################################
+
 resource "opnsense_firewall_filter" "allow_wireguard_wan" {
   description = "Allow WireGuard Connect"
   sequence    = 1 # Order matters!
@@ -44,9 +48,33 @@ resource "opnsense_firewall_filter" "allow_wireguard_wan" {
   }
 }
 
+resource "opnsense_firewall_filter" "allow_lab_to_pve" {
+  description = "Allow Lab to Proxmox API"
+  sequence    = 2
+
+  interface = {
+    interface = ["lan"]
+  }
+
+  filter = {
+    action    = "pass"
+    direction = "in"
+    protocol  = "TCP"
+
+    ip_protocol = "inet"
+    source = {
+      net = local.lab_network
+    }
+    destination = {
+      net  = var.virtual_environment_ip
+      port = "8006"
+    }
+  }
+}
+
 resource "opnsense_firewall_filter" "allow_wireguard_lan" {
   description = "Allow VPN to Lab"
-  sequence    = 2
+  sequence    = 3
 
   # Need to enable Wireguard through the GUI, then assign interface wg0 to opt1
   # something like that
@@ -67,5 +95,25 @@ resource "opnsense_firewall_filter" "allow_wireguard_lan" {
     destination = {
       net = local.lab_network
     }
+  }
+}
+
+##########################################################################
+#######                       FIREWALL NAT                         #######
+##########################################################################
+
+resource "opnsense_firewall_nat" "lab_to_wan" {
+  description = "NAT Lab to WAN"
+  interface   = "wan"
+  protocol    = "any"
+  ip_protocol = "inet"
+  sequence    = 1
+
+  source = {
+    net = local.lab_network
+  }
+
+  target = {
+    ip = "wanip"
   }
 }
