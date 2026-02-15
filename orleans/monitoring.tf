@@ -48,24 +48,3 @@ resource "proxmox_virtual_environment_metrics_server" "victoria_metrics" {
   influx_organization = "proxmox"
   influx_bucket       = "proxmox"
 }
-
-resource "kubernetes_manifest" "proxmox_exporter_scrape" {
-  manifest = {
-    apiVersion = "operator.victoriametrics.com/v1beta1"
-    kind       = "VMServiceScrape"
-    metadata = {
-      name      = "proxmox-exporter"
-      namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
-    }
-    spec = {
-      selector = {
-        matchLabels = {
-          "app.kubernetes.io/name" = "proxmox-exporter"
-        }
-      }
-      endpoints = [{
-        port = "metrics"
-      }]
-    }
-  }
-}
