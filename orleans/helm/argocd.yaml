@@ -8,6 +8,17 @@ server:
     nodePortHttps: 30443
 
 configs:
+  clusterCredentials:
+    in-cluster:
+      name: orleans
+      server: https://kubernetes.default.svc
+      labels:
+        env: lab
+        cluster-name: orleans
+      config:
+        tlsClientConfig:
+          insecure: false
+
   params:
     server.insecure: true
   repositories:
