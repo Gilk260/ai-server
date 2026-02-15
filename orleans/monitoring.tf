@@ -39,6 +39,16 @@ resource "kubernetes_secret_v1" "proxmox_exporter_credentials" {
   }
 }
 
+resource "proxmox_virtual_environment_metrics_server" "victoria_metrics" {
+  name                = "victoria-metrics"
+  type                = "influxdb"
+  server              = var.cloud_vms["k3s-master"].mgmt_ip
+  port                = 30428
+  influx_db_proto     = "http"
+  influx_organization = "proxmox"
+  influx_bucket       = "proxmox"
+}
+
 resource "kubernetes_manifest" "proxmox_exporter_scrape" {
   manifest = {
     apiVersion = "operator.victoriametrics.com/v1beta1"
