@@ -10,6 +10,8 @@ resource "proxmox_virtual_environment_vm" "control_plane" {
   tags        = ["k8s", "ai", "control_plane", "terraform"]
   node_name   = data.proxmox_virtual_environment_node.server.node_name
 
+  on_boot = false
+
   vm_id = local.control_plane_vm_id
 
   agent {
