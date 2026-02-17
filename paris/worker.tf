@@ -10,6 +10,8 @@ resource "proxmox_virtual_environment_vm" "worker" {
   tags        = ["k8s", "ai", "worker", "terraform"]
   node_name   = data.proxmox_virtual_environment_node.server.node_name
 
+  on_boot = false
+
   vm_id = local.worker_vm_id
 
   agent {
