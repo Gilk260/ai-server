@@ -36,6 +36,11 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# CLAUDE
+CLAUDE.md
+PROGRESS.md
+docs/
+
 admin.conf
 **/.iso
 **/*.pkrvars.hcl
@@ -43,3 +48,4 @@ admin.conf
 **/opnsense/*
 **/k3s-config.yaml
 **/private_key/*
+**/iso/
