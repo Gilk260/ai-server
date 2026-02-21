@@ -9,7 +9,6 @@ server:
   ingress:
     enabled: true
     controller: generic
-    ingressClassName: traefik
     hostname: argocd.orleans.g.recouvreux.fr
 
 configs:
