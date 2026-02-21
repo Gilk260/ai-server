@@ -1,5 +1,5 @@
 global:
-  domain: argocd-orleans.gilk.fr
+  domain: argocd.orleans.g.recouvreux.fr
   addPrometheusAnnotations: true
 
 server:
