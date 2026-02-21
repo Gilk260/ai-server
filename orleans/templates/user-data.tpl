@@ -41,6 +41,8 @@ write_files:
     content: |
       tls-san:
         - ${mgmt_ip}
+      disable:
+        - traefik
 %{ endif ~}
 
 runcmd:
