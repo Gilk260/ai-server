@@ -37,7 +37,7 @@ resource "kubernetes_namespace_v1" "victoria-metrics" {
 }
 
 resource "kubernetes_secret_v1" "proxmox_exporter_credentials" {
-  depends_on = [ kubernetes_namespace_v1.monitoring ]
+  depends_on = [kubernetes_namespace_v1.monitoring]
 
   metadata {
     name      = "proxmox-exporter-credentials"
