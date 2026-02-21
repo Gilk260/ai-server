@@ -1,6 +1,6 @@
 locals {
   vpn_network    = "10.10.10.0/24"
-  lab_network    = "10.0.0.0/24"
+  lab_network    = "10.0.0.0/16"
   wireguard_port = 51820
 }
 
@@ -94,6 +94,99 @@ resource "opnsense_firewall_filter" "allow_wireguard_lan" {
     }
     destination = {
       net = local.lab_network
+    }
+  }
+}
+
+resource "opnsense_firewall_filter" "allow_lab_dns" {
+  description = "Allow Lab DNS"
+  sequence    = 4
+
+  interface = {
+    interface = ["lan"]
+  }
+
+  filter = {
+    action    = "pass"
+    direction = "in"
+    protocol  = "UDP"
+
+    ip_protocol = "inet"
+    source = {
+      net = local.lab_network
+    }
+    destination = {
+      port = "53"
+    }
+  }
+}
+
+resource "opnsense_firewall_filter" "allow_lab_https" {
+  description = "Allow Lab HTTPS"
+  sequence    = 5
+
+  interface = {
+    interface = ["lan"]
+  }
+
+  filter = {
+    action    = "pass"
+    direction = "in"
+    protocol  = "TCP"
+
+    ip_protocol = "inet"
+    source = {
+      net = local.lab_network
+    }
+    destination = {
+      port = "443"
+    }
+  }
+}
+
+resource "opnsense_firewall_filter" "allow_lab_http" {
+  description = "Allow Lab HTTP"
+  sequence    = 6
+
+  interface = {
+    interface = ["lan"]
+  }
+
+  filter = {
+    action    = "pass"
+    direction = "in"
+    protocol  = "TCP"
+
+    ip_protocol = "inet"
+    source = {
+      net = local.lab_network
+    }
+    destination = {
+      port = "80"
+    }
+  }
+}
+
+# TODO: Restrict source to a static IP when available
+resource "opnsense_firewall_filter" "allow_wan_opnsense_api" {
+  description = "Allow WAN to OPNsense API"
+  sequence    = 7
+
+  interface = {
+    interface = ["wan"]
+  }
+
+  filter = {
+    action    = "pass"
+    direction = "in"
+    protocol  = "TCP"
+
+    ip_protocol = "inet"
+    source = {
+      net = "192.168.1.0/24"
+    }
+    destination = {
+      port = "443"
     }
   }
 }
