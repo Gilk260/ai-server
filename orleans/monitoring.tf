@@ -26,6 +26,16 @@ resource "kubernetes_namespace_v1" "monitoring" {
   }
 }
 
+resource "kubernetes_namespace_v1" "victoria-metrics" {
+  metadata {
+    name = "victoria-metrics"
+  }
+
+  lifecycle {
+    ignore_changes = [metadata[0].labels, metadata[0].annotations]
+  }
+}
+
 resource "kubernetes_secret_v1" "proxmox_exporter_credentials" {
   depends_on = [ kubernetes_namespace_v1.monitoring ]
 
@@ -47,11 +57,11 @@ resource "random_password" "default_password" {
 }
 
 resource "kubernetes_secret_v1" "grafana_admin_credentials" {
-  depends_on = [kubernetes_namespace_v1.monitoring]
+  depends_on = [kubernetes_namespace_v1.victoria-metrics]
 
   metadata {
     name      = "grafana-admin-credentials"
-    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
+    namespace = kubernetes_namespace_v1.victoria-metrics.metadata[0].name
   }
 
   data = {
