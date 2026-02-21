@@ -109,7 +109,7 @@ resource "null_resource" "k3s_kubeconfig" {
       sleep 30
 
       echo "Fetching kubeconfig..."
-      ssh -o StrictHostKeyChecking=no -J root@${var.virtual_environment_ip} ubuntu@${var.cloud_vms["k3s-master"].ip} "sudo cat /etc/rancher/k3s/k3s.yaml" > k3s-config.yaml
+      ssh -o StrictHostKeyChecking=no ubuntu@${var.cloud_vms["k3s-master"].mgmt_ip} "sudo cat /etc/rancher/k3s/k3s.yaml" > k3s-config.yaml
 
       MGMT_IP="${coalesce(var.cloud_vms["k3s-master"].mgmt_ip, var.cloud_vms["k3s-master"].ip)}"
 
