@@ -41,6 +41,25 @@ resource "kubernetes_secret_v1" "proxmox_exporter_credentials" {
   }
 }
 
+resource "random_password" "default_password" {
+  length  = 24
+  special = true
+}
+
+resource "kubernetes_secret_v1" "grafana_admin_credentials" {
+  depends_on = [kubernetes_namespace_v1.monitoring]
+
+  metadata {
+    name      = "grafana-admin-credentials"
+    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
+  }
+
+  data = {
+    admin-password = random_password.default_password.result
+    admin-user     = "admin"
+  }
+}
+
 resource "proxmox_virtual_environment_metrics_server" "victoria_metrics" {
   name                = "victoria-metrics"
   type                = "influxdb"
