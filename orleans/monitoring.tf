@@ -70,6 +70,20 @@ resource "kubernetes_secret_v1" "grafana_admin_credentials" {
   }
 }
 
+resource "kubernetes_secret_v1" "opnsense_exporter_credentials" {
+  depends_on = [kubernetes_namespace_v1.monitoring]
+
+  metadata {
+    name      = "opnsense-credentials"
+    namespace = kubernetes_namespace_v1.monitoring.metadata[0].name
+  }
+
+  data = {
+    api-key    = sensitive(chomp(file("./opnsense/api.key")))
+    api-secret = sensitive(chomp(file("./opnsense/api.secret")))
+  }
+}
+
 resource "proxmox_virtual_environment_metrics_server" "victoria_metrics" {
   name                = "victoria-metrics"
   type                = "influxdb"
