@@ -25,6 +25,51 @@ configs:
 
   params:
     server.insecure: true
+    controller.resource.health.persist: true
+
+  cm:
+    resource.customizations.health.operator.victoriametrics.com_VMSingle: |
+      hs = {}
+      if obj.status ~= nil and obj.status.singleStatus == "operational" then
+        hs.status = "Healthy"
+        hs.message = "VMSingle is operational"
+      else
+        hs.status = "Progressing"
+        hs.message = "Waiting for VMSingle"
+      end
+      return hs
+    resource.customizations.health.operator.victoriametrics.com_VMAgent: |
+      hs = {}
+      if obj.status ~= nil and obj.status.updateStatus == "operational" then
+        hs.status = "Healthy"
+        hs.message = "VMAgent is operational"
+      else
+        hs.status = "Progressing"
+        hs.message = "Waiting for VMAgent"
+      end
+      return hs
+    resource.customizations.health.operator.victoriametrics.com_VMAlert: |
+      hs = {}
+      if obj.status ~= nil and obj.status.updateStatus == "operational" then
+        hs.status = "Healthy"
+        hs.message = "VMAlert is operational"
+      else
+        hs.status = "Progressing"
+        hs.message = "Waiting for VMAlert"
+      end
+      return hs
+    resource.customizations.health.operator.victoriametrics.com_VMRule: |
+      hs = {}
+      hs.status = "Healthy"
+      return hs
+    resource.customizations.health.operator.victoriametrics.com_VMServiceScrape: |
+      hs = {}
+      hs.status = "Healthy"
+      return hs
+    resource.customizations.health.operator.victoriametrics.com_VMNodeScrape: |
+      hs = {}
+      hs.status = "Healthy"
+      return hs
   repositories:
     infra-gitops:
       url: https://github.com/Gilk260/infra-gitops
