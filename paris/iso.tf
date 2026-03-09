@@ -14,6 +14,7 @@ resource "proxmox_virtual_environment_download_file" "opnsense_iso" {
   url                     = "https://pkg.opnsense.org/releases/26.1/OPNsense-26.1-dvd-amd64.iso.bz2"
   file_name               = "OPNsense-26.1-dvd-amd64.iso"
   decompression_algorithm = "bz2"
+  overwrite               = false
 }
 
 # Debian 12 LXC template for Pi-hole
