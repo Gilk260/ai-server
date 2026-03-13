@@ -45,7 +45,18 @@ admin.conf
 **/.iso
 **/*.pkrvars.hcl
 **/wireguard/*
-**/opnsense/*
 **/k3s-config.yaml
 **/private_key/*
 **/iso/
+
+# Sensitive tfvars
+environments/*.secret.tfvars
+
+# Allow non-sensitive environment tfvars (override *.tfvars above)
+!environments/*.tfvars
+
+# Workspace state
+terraform.tfstate.d/
+
+# Kubeconfig (fetched dynamically)
+k3s-config.yaml
