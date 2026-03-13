@@ -13,30 +13,28 @@ resource "helm_release" "argocd" {
   ]
 
   # Dynamic cluster-specific overrides
-  set {
-    name  = "global.domain"
-    value = "argocd.${var.cluster_domain}"
-  }
-
-  set {
-    name  = "server.ingress.hostname"
-    value = "argocd.${var.cluster_domain}"
-  }
-
-  set {
-    name  = "configs.clusterCredentials.in-cluster.name"
-    value = var.cluster_name
-  }
-
-  set {
-    name  = "configs.clusterCredentials.in-cluster.labels.cluster-name"
-    value = var.cluster_name
-  }
-
-  set {
-    name  = "configs.clusterCredentials.in-cluster.labels.env"
-    value = var.cluster_name
-  }
+  set = [
+    {
+      name  = "global.domain"
+      value = "argocd.${var.cluster_domain}"
+    },
+    {
+      name  = "server.ingress.hostname"
+      value = "argocd.${var.cluster_domain}"
+    },
+    {
+      name  = "configs.clusterCredentials.in-cluster.name"
+      value = var.cluster_name
+    },
+    {
+      name  = "configs.clusterCredentials.in-cluster.labels.cluster-name"
+      value = var.cluster_name
+    },
+    {
+      name  = "configs.clusterCredentials.in-cluster.labels.env"
+      value = var.cluster_name
+    },
+  ]
 
   set_sensitive = [
     {
