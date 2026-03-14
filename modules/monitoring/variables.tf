@@ -1,11 +1,3 @@
-variable "node_name" {
-  type = string
-}
-
-variable "cluster_name" {
-  type = string
-}
-
 variable "virtual_environment_endpoint" {
   type      = string
   sensitive = true

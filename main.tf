@@ -17,7 +17,6 @@ module "opnsense" {
 
   node_name        = data.proxmox_virtual_environment_node.server.node_name
   opnsense_vm      = var.opnsense_vm
-  gateway_ip       = var.gateway_ip
   network_subnet   = var.network_subnet
   wireguard_subnet = var.wireguard_subnet
   cluster_name     = var.cluster_name
@@ -73,7 +72,6 @@ module "iso_vms" {
 
   node_name    = data.proxmox_virtual_environment_node.server.node_name
   iso_vms      = var.iso_vms
-  ssh_key      = var.ssh_key
   cluster_name = var.cluster_name
   image_ids    = local.image_ids
 
@@ -96,8 +94,6 @@ module "argocd" {
 module "monitoring" {
   source = "./modules/monitoring"
 
-  node_name                    = data.proxmox_virtual_environment_node.server.node_name
-  cluster_name                 = var.cluster_name
   virtual_environment_endpoint = var.virtual_environment_endpoint
   opnsense_api_key             = var.opnsense_api_key
   opnsense_api_secret          = var.opnsense_api_secret

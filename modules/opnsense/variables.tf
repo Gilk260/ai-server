@@ -11,10 +11,6 @@ variable "opnsense_vm" {
   })
 }
 
-variable "gateway_ip" {
-  type = string
-}
-
 variable "cluster_name" {
   type = string
 }

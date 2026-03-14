@@ -11,8 +11,16 @@ repos:
           - --hook-config=--retry-once-with-cleanup=true
 
       - id: terraform_tflint
+        name: terraform_tflint (root)
         args:
           - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+        exclude: '^modules/'
+
+      - id: terraform_tflint
+        name: terraform_tflint (modules)
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/modules/.tflint.hcl
+        files: '^modules/'
 
       - id: terraform_trivy
         args:

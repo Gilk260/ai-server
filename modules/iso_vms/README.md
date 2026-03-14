@@ -31,7 +31,6 @@ No modules.
 | <a name="input_image_ids"></a> [image\_ids](#input\_image\_ids) | Map of os\_key => Proxmox file ID for ISO images | `map(string)` | n/a | yes |
 | <a name="input_iso_vms"></a> [iso\_vms](#input\_iso\_vms) | n/a | <pre>map(object({<br/>    vmid        = number<br/>    cores       = number<br/>    memory      = number<br/>    disk_size   = number<br/>    os_key      = string<br/>    bridges     = list(string)<br/>    passthrough = optional(bool, false)<br/>    pci_id      = optional(string)<br/>    on_boot     = optional(bool, false)<br/>  }))</pre> | n/a | yes |
 | <a name="input_node_name"></a> [node\_name](#input\_node\_name) | n/a | `string` | n/a | yes |
-| <a name="input_ssh_key"></a> [ssh\_key](#input\_ssh\_key) | n/a | `string` | n/a | yes |
 
 ## Outputs
 

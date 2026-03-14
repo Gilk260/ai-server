@@ -16,11 +16,6 @@ variable "iso_vms" {
   }))
 }
 
-variable "ssh_key" {
-  type      = string
-  sensitive = true
-}
-
 variable "cluster_name" {
   type = string
 }

@@ -37,8 +37,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | n/a | `string` | n/a | yes |
-| <a name="input_node_name"></a> [node\_name](#input\_node\_name) | n/a | `string` | n/a | yes |
 | <a name="input_opnsense_api_key"></a> [opnsense\_api\_key](#input\_opnsense\_api\_key) | n/a | `string` | n/a | yes |
 | <a name="input_opnsense_api_secret"></a> [opnsense\_api\_secret](#input\_opnsense\_api\_secret) | n/a | `string` | n/a | yes |
 | <a name="input_victoria_metrics_port"></a> [victoria\_metrics\_port](#input\_victoria\_metrics\_port) | n/a | `number` | `30428` | no |

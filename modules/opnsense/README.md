@@ -38,7 +38,6 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | n/a | `string` | n/a | yes |
-| <a name="input_gateway_ip"></a> [gateway\_ip](#input\_gateway\_ip) | n/a | `string` | n/a | yes |
 | <a name="input_lan_bridge"></a> [lan\_bridge](#input\_lan\_bridge) | LAN bridge name (e.g., vmbr1) | `string` | `"vmbr1"` | no |
 | <a name="input_network_subnet"></a> [network\_subnet](#input\_network\_subnet) | Private LAN CIDR (e.g., 10.0.0.0/16) | `string` | n/a | yes |
 | <a name="input_node_name"></a> [node\_name](#input\_node\_name) | n/a | `string` | n/a | yes |

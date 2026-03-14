@@ -1,5 +1,6 @@
 locals {
-  # Workspace safety: fail at plan time if workspace doesn't match cluster_name
+  # Workspace safety: fail at plan time if workspace doesn't match cluster_name (side-effect only)
+  # tflint-ignore: terraform_unused_declarations
   validate_workspace = (
     terraform.workspace == var.cluster_name
     ? true
