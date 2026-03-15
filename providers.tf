@@ -21,9 +21,10 @@ provider "helm" {
 }
 
 provider "opnsense" {
-  uri        = var.opnsense_endpoint
-  api_key    = var.opnsense_api_key != "" ? var.opnsense_api_key : "placeholder"
-  api_secret = var.opnsense_api_secret != "" ? var.opnsense_api_secret : "placeholder"
+  uri            = var.opnsense_endpoint
+  api_key        = var.opnsense_api_key != "" ? var.opnsense_api_key : "placeholder"
+  api_secret     = var.opnsense_api_secret != "" ? var.opnsense_api_secret : "placeholder"
+  allow_insecure = true
 }
 
 provider "wireguard" {}
