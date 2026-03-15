@@ -18,7 +18,7 @@ bridges = [
 
 cloud_vms = {
   k3s-master = {
-    vmid      = 100
+    vmid      = 1000
     cores     = 2
     memory    = 4096
     ip        = "10.0.10.1"
@@ -27,7 +27,7 @@ cloud_vms = {
     k3s_role  = "server"
   }
   k3s-worker-1 = {
-    vmid      = 101
+    vmid      = 1001
     cores     = 4
     memory    = 8192
     ip        = "10.0.100.1"
@@ -38,14 +38,14 @@ cloud_vms = {
 }
 
 opnsense_vm = {
-  vmid      = 1
+  vmid      = 100
   cores     = 2
   memory    = 2048
   disk_size = 32
 }
 
 pihole_ct = {
-  vmid   = 2
+  vmid   = 101
   cores  = 1
   memory = 512
   disk   = 8
