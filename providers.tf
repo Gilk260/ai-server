@@ -11,19 +11,19 @@ provider "proxmox" {
 }
 
 provider "kubernetes" {
-  config_path = "${path.module}/k3s-config.yaml"
+  config_path = fileexists("${path.module}/k3s-config.yaml") ? "${path.module}/k3s-config.yaml" : null
 }
 
 provider "helm" {
   kubernetes = {
-    config_path = "${path.module}/k3s-config.yaml"
+    config_path = fileexists("${path.module}/k3s-config.yaml") ? "${path.module}/k3s-config.yaml" : null
   }
 }
 
 provider "opnsense" {
   uri        = var.opnsense_endpoint
-  api_key    = var.opnsense_api_key
-  api_secret = var.opnsense_api_secret
+  api_key    = var.opnsense_api_key != "" ? var.opnsense_api_key : "placeholder"
+  api_secret = var.opnsense_api_secret != "" ? var.opnsense_api_secret : "placeholder"
 }
 
 provider "wireguard" {}
