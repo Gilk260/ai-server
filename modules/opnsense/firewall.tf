@@ -85,27 +85,27 @@ resource "opnsense_firewall_filter" "allow_lan_http" {
   }
 }
 
-resource "opnsense_firewall_filter" "allow_vpn_to_lan" {
-  description = "Allow VPN to LAN"
-  sequence    = 5
-
-  interface = {
-    interface = ["opt1"]
-  }
-
-  filter = {
-    action      = "pass"
-    direction   = "in"
-    protocol    = "any"
-    ip_protocol = "inet"
-    source = {
-      net = var.wireguard_subnet
-    }
-    destination = {
-      net = var.network_subnet
-    }
-  }
-}
+# resource "opnsense_firewall_filter" "allow_vpn_to_lan" {
+#   description = "Allow VPN to LAN"
+#   sequence    = 5
+# 
+#   interface = {
+#     interface = ["opt1"]
+#   }
+# 
+#   filter = {
+#     action      = "pass"
+#     direction   = "in"
+#     protocol    = "any"
+#     ip_protocol = "inet"
+#     source = {
+#       net = var.wireguard_subnet
+#     }
+#     destination = {
+#       net = var.network_subnet
+#     }
+#   }
+# }
 
 resource "opnsense_firewall_filter" "allow_wan_opnsense_api" {
   description = "Allow WAN to OPNsense API"
@@ -144,5 +144,40 @@ resource "opnsense_firewall_nat" "lan_to_wan" {
 
   target = {
     ip = "wanip"
+  }
+}
+
+resource "opnsense_firewall_filter" "allow_lan_outbound" {
+  description = "Allow all LAN outbound"
+  sequence    = 10
+
+  interface = {
+    interface = ["lan"]
+  }
+
+  filter = {
+    action      = "pass"
+    direction   = "in"
+    protocol    = "any"
+    ip_protocol = "inet"
+    source = {
+      net = var.network_subnet
+    }
+  }
+}
+
+resource "opnsense_firewall_filter" "allow_wan_outbound" {
+  description = "Allow NATted LAN traffic out WAN"
+  sequence    = 20
+
+  interface = {
+    interface = ["wan"]
+  }
+
+  filter = {
+    action      = "pass"
+    direction   = "out"
+    protocol    = "any"
+    ip_protocol = "inet"
   }
 }

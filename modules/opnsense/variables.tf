@@ -20,9 +20,9 @@ variable "network_subnet" {
   description = "Private LAN CIDR (e.g., 10.0.0.0/16)"
 }
 
-variable "wireguard_subnet" {
-  type = string
-}
+# variable "wireguard_subnet" {
+#   type = string
+# }
 
 variable "opnsense_iso_file_id" {
   type        = string
