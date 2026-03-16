@@ -94,6 +94,7 @@ resource "proxmox_virtual_environment_vm" "cloud" {
   }
 
   initialization {
+    datastore_id = var.vm_datastore_id
     ip_config {
       ipv4 {
         address = "${each.value.ip}/${local.prefix_length}"
