@@ -14,6 +14,11 @@ variable "proxmox_node_name" {
   description = "Proxmox node name"
 }
 
+variable "vm_datastore_id" {
+  type    = string
+  default = "local-lvm"
+}
+
 # --- Proxmox connection (sensitive) ---
 variable "virtual_environment_endpoint" {
   type = string

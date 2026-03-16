@@ -85,27 +85,27 @@ resource "opnsense_firewall_filter" "allow_lan_http" {
   }
 }
 
-# resource "opnsense_firewall_filter" "allow_vpn_to_lan" {
-#   description = "Allow VPN to LAN"
-#   sequence    = 5
-# 
-#   interface = {
-#     interface = ["opt1"]
-#   }
-# 
-#   filter = {
-#     action      = "pass"
-#     direction   = "in"
-#     protocol    = "any"
-#     ip_protocol = "inet"
-#     source = {
-#       net = var.wireguard_subnet
-#     }
-#     destination = {
-#       net = var.network_subnet
-#     }
-#   }
-# }
+resource "opnsense_firewall_filter" "allow_vpn_to_lan" {
+  description = "Allow VPN to LAN"
+  sequence    = 5
+
+  interface = {
+    interface = ["opt1"]
+  }
+
+  filter = {
+    action      = "pass"
+    direction   = "in"
+    protocol    = "any"
+    ip_protocol = "inet"
+    source = {
+      net = var.wireguard_subnet
+    }
+    destination = {
+      net = var.network_subnet
+    }
+  }
+}
 
 resource "opnsense_firewall_filter" "allow_wan_opnsense_api" {
   description = "Allow WAN to OPNsense API"

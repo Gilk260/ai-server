@@ -20,7 +20,7 @@ resource "proxmox_virtual_environment_vm" "iso" {
   }
 
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.vm_datastore_id
     interface    = "scsi0"
     size         = each.value.disk_size
     file_format  = "raw"

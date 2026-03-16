@@ -86,3 +86,8 @@ variable "proxmox_ip" {
   type        = string
   description = "Proxmox host IP (used as SSH jump host when no mgmt IP)"
 }
+
+variable "vm_datastore_id" {
+  type    = string
+  default = "local-lvm"
+}

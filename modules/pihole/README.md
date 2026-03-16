@@ -39,6 +39,7 @@ No modules.
 | <a name="input_pihole_ct"></a> [pihole\_ct](#input\_pihole\_ct) | n/a | <pre>object({<br/>    vmid   = number<br/>    cores  = number<br/>    memory = number<br/>    disk   = number<br/>    ip     = string<br/>  })</pre> | n/a | yes |
 | <a name="input_proxmox_ip"></a> [proxmox\_ip](#input\_proxmox\_ip) | Proxmox host IP for SSH provisioner (pct exec) | `string` | n/a | yes |
 | <a name="input_ssh_key"></a> [ssh\_key](#input\_ssh\_key) | n/a | `string` | n/a | yes |
+| <a name="input_vm_datastore_id"></a> [vm\_datastore\_id](#input\_vm\_datastore\_id) | n/a | `string` | `"local-lvm"` | no |
 
 ## Outputs
 

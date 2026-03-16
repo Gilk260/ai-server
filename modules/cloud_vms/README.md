@@ -46,6 +46,7 @@ No modules.
 | <a name="input_proxmox_ip"></a> [proxmox\_ip](#input\_proxmox\_ip) | Proxmox host IP (used as SSH jump host when no mgmt IP) | `string` | n/a | yes |
 | <a name="input_ssh_key"></a> [ssh\_key](#input\_ssh\_key) | n/a | `string` | n/a | yes |
 | <a name="input_templates_path"></a> [templates\_path](#input\_templates\_path) | Absolute path to the templates/ directory | `string` | n/a | yes |
+| <a name="input_vm_datastore_id"></a> [vm\_datastore\_id](#input\_vm\_datastore\_id) | n/a | `string` | `"local-lvm"` | no |
 
 ## Outputs
 

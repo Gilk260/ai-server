@@ -23,6 +23,7 @@ module "opnsense" {
 
   opnsense_iso_file_id = local.image_ids["opnsense"]
   lan_bridge           = "vmbr1"
+  vm_datastore_id      = var.vm_datastore_id
 
   depends_on = [module.network]
 }
@@ -41,6 +42,7 @@ module "pihole" {
   proxmox_ip           = local.proxmox_ip
   lxc_template_file_id = local.image_ids["debian-lxc"]
   lan_bridge           = "vmbr1"
+  vm_datastore_id      = var.vm_datastore_id
 
   depends_on = [module.opnsense]
 }
@@ -63,6 +65,7 @@ module "cloud_vms" {
   k3s_mgmt_ip            = local.k3s_mgmt_ip
   proxmox_ip             = local.proxmox_ip
   kubeconfig_output_path = "${path.module}/k3s-config.yaml"
+  vm_datastore_id        = var.vm_datastore_id
 
   depends_on = [module.opnsense]
 }
@@ -71,10 +74,11 @@ module "cloud_vms" {
 module "iso_vms" {
   source = "./modules/iso_vms"
 
-  node_name    = data.proxmox_virtual_environment_node.server.node_name
-  iso_vms      = var.iso_vms
-  cluster_name = var.cluster_name
-  image_ids    = local.image_ids
+  node_name       = data.proxmox_virtual_environment_node.server.node_name
+  iso_vms         = var.iso_vms
+  cluster_name    = var.cluster_name
+  image_ids       = local.image_ids
+  vm_datastore_id = var.vm_datastore_id
 
   depends_on = [module.network]
 }

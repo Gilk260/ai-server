@@ -48,3 +48,8 @@ variable "lan_bridge" {
   type    = string
   default = "vmbr1"
 }
+
+variable "vm_datastore_id" {
+  type    = string
+  default = "local-lvm"
+}

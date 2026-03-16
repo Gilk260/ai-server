@@ -1,6 +1,7 @@
 cluster_name      = "prod"
 cluster_domain    = "prod.g.recouvreux.fr"
 proxmox_node_name = "prod"
+vm_datastore_id   = "local-zfs"
 network_subnet    = "10.1.0.0/16"
 gateway_ip        = "10.1.0.1"
 

@@ -24,7 +24,7 @@ resource "proxmox_virtual_environment_vm" "opnsense" {
   }
 
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.vm_datastore_id
     interface    = "scsi0"
     size         = var.opnsense_vm.disk_size
     file_format  = "raw"

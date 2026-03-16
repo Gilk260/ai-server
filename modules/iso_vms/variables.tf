@@ -24,3 +24,8 @@ variable "image_ids" {
   type        = map(string)
   description = "Map of os_key => Proxmox file ID for ISO images"
 }
+
+variable "vm_datastore_id" {
+  type    = string
+  default = "local-lvm"
+}

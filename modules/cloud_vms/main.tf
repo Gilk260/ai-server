@@ -80,7 +80,7 @@ resource "proxmox_virtual_environment_vm" "cloud" {
   }
 
   disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.vm_datastore_id
     file_id      = var.image_ids[each.value.os_key]
     interface    = "scsi0"
     size         = each.value.disk_size
@@ -89,7 +89,7 @@ resource "proxmox_virtual_environment_vm" "cloud" {
   }
 
   efi_disk {
-    datastore_id = "local-lvm"
+    datastore_id = var.vm_datastore_id
     type         = "4m"
   }
 
