@@ -81,3 +81,8 @@ variable "kubeconfig_output_path" {
   type        = string
   description = "Absolute path where k3s-config.yaml will be written"
 }
+
+variable "proxmox_ip" {
+  type        = string
+  description = "Proxmox host IP (used as SSH jump host when no mgmt IP)"
+}

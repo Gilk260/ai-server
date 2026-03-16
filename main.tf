@@ -61,6 +61,7 @@ module "cloud_vms" {
   image_ids              = local.image_ids
   k3s_server_ip          = local.k3s_server_ip
   k3s_mgmt_ip            = local.k3s_mgmt_ip
+  proxmox_ip             = local.proxmox_ip
   kubeconfig_output_path = "${path.module}/k3s-config.yaml"
 
   depends_on = [module.opnsense]

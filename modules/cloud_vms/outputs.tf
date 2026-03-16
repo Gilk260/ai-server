@@ -10,5 +10,5 @@ output "k3s_server_ip" {
 }
 
 output "k3s_kubeconfig_ready" {
-  value = var.k3s_mgmt_ip != null ? terraform_data.k3s_kubeconfig[0].id : null
+  value = terraform_data.k3s_kubeconfig.id
 }
