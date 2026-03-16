@@ -4,9 +4,8 @@ proxmox_node_name = "dev"
 network_subnet    = "10.0.0.0/16"
 gateway_ip        = "10.0.0.1"
 
-wireguard_subnet  = "10.10.10.0/24"
-k3s_version       = "v1.31.4+k3s1"
-opnsense_endpoint = "https://10.0.0.1"
+wireguard_subnet = "10.10.10.0/24"
+k3s_version      = "v1.31.4+k3s1"
 
 bridges = [
   {
