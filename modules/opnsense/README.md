@@ -32,6 +32,8 @@ No modules.
 | [opnsense_firewall_filter.allow_wan_outbound](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
 | [opnsense_firewall_filter.allow_wireguard_wan](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
 | [opnsense_firewall_nat.lan_to_wan](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_nat) | resource |
+| [opnsense_wireguard_client.laptop](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/wireguard_client) | resource |
+| [opnsense_wireguard_server.vpn](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/wireguard_server) | resource |
 | [proxmox_virtual_environment_vm.opnsense](https://registry.terraform.io/providers/bpg/proxmox/latest/docs/resources/virtual_environment_vm) | resource |
 | [wireguard_asymmetric_key.vpn](https://registry.terraform.io/providers/OJFord/wireguard/latest/docs/resources/asymmetric_key) | resource |
 
@@ -46,10 +48,14 @@ No modules.
 | <a name="input_opnsense_iso_file_id"></a> [opnsense\_iso\_file\_id](#input\_opnsense\_iso\_file\_id) | Proxmox file ID of the OPNsense ISO | `string` | n/a | yes |
 | <a name="input_opnsense_vm"></a> [opnsense\_vm](#input\_opnsense\_vm) | n/a | <pre>object({<br/>    vmid      = number<br/>    cores     = number<br/>    memory    = number<br/>    disk_size = number<br/>  })</pre> | n/a | yes |
 | <a name="input_vm_datastore_id"></a> [vm\_datastore\_id](#input\_vm\_datastore\_id) | n/a | `string` | `"local-lvm"` | no |
+| <a name="input_wireguard_client_public_key"></a> [wireguard\_client\_public\_key](#input\_wireguard\_client\_public\_key) | n/a | `string` | n/a | yes |
 | <a name="input_wireguard_port"></a> [wireguard\_port](#input\_wireguard\_port) | n/a | `number` | `51820` | no |
 | <a name="input_wireguard_subnet"></a> [wireguard\_subnet](#input\_wireguard\_subnet) | n/a | `string` | n/a | yes |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_wireguard_server_port"></a> [wireguard\_server\_port](#output\_wireguard\_server\_port) | n/a |
+| <a name="output_wireguard_server_public_key"></a> [wireguard\_server\_public\_key](#output\_wireguard\_server\_public\_key) | n/a |
 <!-- END_TF_DOCS -->

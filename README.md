@@ -60,7 +60,8 @@ Server managed with OpenTofu used for AI's inference
 | <a name="input_virtual_environment_endpoint"></a> [virtual\_environment\_endpoint](#input\_virtual\_environment\_endpoint) | --- Proxmox connection (sensitive) --- | `string` | n/a | yes |
 | <a name="input_virtual_environment_password"></a> [virtual\_environment\_password](#input\_virtual\_environment\_password) | n/a | `string` | n/a | yes |
 | <a name="input_virtual_environment_username"></a> [virtual\_environment\_username](#input\_virtual\_environment\_username) | n/a | `string` | n/a | yes |
-| <a name="input_wireguard_subnet"></a> [wireguard\_subnet](#input\_wireguard\_subnet) | WireGuard VPN subnet (e.g., 10.10.10.0/24) | `string` | n/a | yes |
+| <a name="input_wireguard_client_public_key"></a> [wireguard\_client\_public\_key](#input\_wireguard\_client\_public\_key) | n/a | `string` | n/a | yes |
+| <a name="input_wireguard_subnet"></a> [wireguard\_subnet](#input\_wireguard\_subnet) | WireGuard VPN subnet (e.g., 172.1.1.0/24) | `string` | n/a | yes |
 | <a name="input_images"></a> [images](#input\_images) | OS images, ISOs, and LXC templates to download | <pre>map(object({<br/>    content_type            = string<br/>    url                     = string<br/>    file_name               = optional(string)<br/>    datastore_id            = optional(string, "local")<br/>    decompression_algorithm = optional(string)<br/>    overwrite               = optional(bool, false)<br/>  }))</pre> | `{}` | no |
 | <a name="input_iso_vms"></a> [iso\_vms](#input\_iso\_vms) | --- ISO VMs (optional) --- | <pre>map(object({<br/>    vmid        = number<br/>    cores       = number<br/>    memory      = number<br/>    disk_size   = number<br/>    os_key      = string<br/>    bridges     = list(string)<br/>    passthrough = optional(bool, false)<br/>    pci_id      = optional(string)<br/>  }))</pre> | `{}` | no |
 | <a name="input_vm_datastore_id"></a> [vm\_datastore\_id](#input\_vm\_datastore\_id) | n/a | `string` | `"local-lvm"` | no |
@@ -74,4 +75,5 @@ Server managed with OpenTofu used for AI's inference
 | <a name="output_k3s_server_ip"></a> [k3s\_server\_ip](#output\_k3s\_server\_ip) | n/a |
 | <a name="output_monitoring_namespace"></a> [monitoring\_namespace](#output\_monitoring\_namespace) | n/a |
 | <a name="output_pihole_ip"></a> [pihole\_ip](#output\_pihole\_ip) | n/a |
+| <a name="output_wireguard_server_public_key"></a> [wireguard\_server\_public\_key](#output\_wireguard\_server\_public\_key) | n/a |
 <!-- END_TF_DOCS -->

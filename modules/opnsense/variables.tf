@@ -44,3 +44,8 @@ variable "vm_datastore_id" {
   type    = string
   default = "local-lvm"
 }
+
+variable "wireguard_client_public_key" {
+  type      = string
+  sensitive = true
+}

@@ -65,7 +65,12 @@ variable "bridges" {
 # --- WireGuard ---
 variable "wireguard_subnet" {
   type        = string
-  description = "WireGuard VPN subnet (e.g., 10.10.10.0/24)"
+  description = "WireGuard VPN subnet (e.g., 172.1.1.0/24)"
+}
+
+variable "wireguard_client_public_key" {
+  type      = string
+  sensitive = true
 }
 
 # --- K3s ---

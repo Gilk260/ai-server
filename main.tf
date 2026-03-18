@@ -21,9 +21,10 @@ module "opnsense" {
   wireguard_subnet = var.wireguard_subnet
   cluster_name     = var.cluster_name
 
-  opnsense_iso_file_id = local.image_ids["opnsense"]
-  lan_bridge           = "vmbr1"
-  vm_datastore_id      = var.vm_datastore_id
+  opnsense_iso_file_id        = local.image_ids["opnsense"]
+  lan_bridge                  = "vmbr1"
+  vm_datastore_id             = var.vm_datastore_id
+  wireguard_client_public_key = var.wireguard_client_public_key
 
   depends_on = [module.network]
 }

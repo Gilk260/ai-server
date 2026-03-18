@@ -17,3 +17,7 @@ output "monitoring_namespace" {
 output "argocd_namespace" {
   value = module.argocd.namespace
 }
+
+output "wireguard_server_public_key" {
+  value = module.opnsense.wireguard_server_public_key
+}
