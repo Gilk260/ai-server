@@ -28,6 +28,7 @@ No modules.
 | [opnsense_firewall_filter.allow_lan_https](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
 | [opnsense_firewall_filter.allow_lan_outbound](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
 | [opnsense_firewall_filter.allow_vpn_to_lan](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
+| [opnsense_firewall_filter.allow_vpn_to_vpn](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
 | [opnsense_firewall_filter.allow_wan_opnsense_api](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
 | [opnsense_firewall_filter.allow_wan_outbound](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |
 | [opnsense_firewall_filter.allow_wireguard_wan](https://registry.terraform.io/providers/browningluke/opnsense/latest/docs/resources/firewall_filter) | resource |

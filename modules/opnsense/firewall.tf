@@ -107,9 +107,31 @@ resource "opnsense_firewall_filter" "allow_vpn_to_lan" {
   }
 }
 
+resource "opnsense_firewall_filter" "allow_vpn_to_vpn" {
+  description = "Allow VPN internal traffic"
+  sequence    = 6
+
+  interface = {
+    interface = ["opt1"]
+  }
+
+  filter = {
+    action      = "pass"
+    direction   = "in"
+    protocol    = "any"
+    ip_protocol = "inet"
+    source = {
+      net = var.wireguard_subnet
+    }
+    destination = {
+      net = var.wireguard_subnet
+    }
+  }
+}
+
 resource "opnsense_firewall_filter" "allow_wan_opnsense_api" {
   description = "Allow WAN to OPNsense API"
-  sequence    = 6
+  sequence    = 7
 
   interface = {
     interface = ["wan"]
