@@ -5,7 +5,7 @@ vm_datastore_id   = "local-zfs"
 network_subnet    = "10.1.0.0/16"
 gateway_ip        = "10.1.0.1"
 
-wireguard_subnet = "10.10.10.0/24"
+wireguard_subnet = "172.1.2.0/24"
 k3s_version      = "v1.31.4+k3s1"
 
 bridges = [
