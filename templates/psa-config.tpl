@@ -25,5 +25,6 @@ plugins:
           - longhorn-system
           - velero
           - monitoring
+          - victoria-metrics
           - kyverno
           - trivy-system
