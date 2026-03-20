@@ -36,6 +36,8 @@ write_files:
       ip_tables
       iptable_filter
       iptable_nat
+      iscsi_tcp
+      dm_snapshot
 
   - path: /etc/sysctl.d/k3s.conf
     content: |
@@ -67,7 +69,7 @@ write_files:
 
 runcmd:
   - systemctl enable --now qemu-guest-agent
-  - modprobe br_netfilter overlay ip_tables iptable_filter iptable_nat
+  - modprobe br_netfilter overlay ip_tables iptable_filter iptable_nat iscsi_tcp dm_snapshot
   - sysctl --system
   - systemctl enable --now iscsid
   - bash -c 'until ping -c 1 -W 3 1.1.1.1 > /dev/null 2>&1; do echo "Waiting for network..."; sleep 5; done'
@@ -76,6 +78,7 @@ runcmd:
   - curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${k3s_version}" sh -s - server
   - bash -c 'until /usr/local/bin/kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get nodes 2>/dev/null; do sleep 3; done'
   - /usr/local/bin/kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.2/manifests/tigera-operator.yaml
+  - /usr/local/bin/kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml label node $(hostname) node.longhorn.io/create-default-disk=true --overwrite
 %{ endif ~}
 %{ if k3s_role == "agent" ~}
   - curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="${k3s_version}" K3S_URL="https://${k3s_server_ip}:6443" K3S_TOKEN="${k3s_token}" sh -s - agent
