@@ -2,6 +2,21 @@
 
 Creates the OPNsense firewall VM and manages firewall rules, NAT, and WireGuard keys.
 
+## Manual Post-Wizard Steps
+
+After the OPNsense VM boots and the initial wizard is complete:
+
+1. **WAN Interface**: Set static IP, uncheck "Block private networks" and "Block bogon networks"
+2. **LAN Interface**: Set IP to gateway (e.g., `10.0.0.1/16`), enable DHCP range
+3. **API Access**: System > Access > Users > root > API keys > Create. Add key/secret to `*.secret.tfvars`
+4. **WireGuard Interface Assignment** (after tofu deploys WireGuard):
+   - VPN > WireGuard > General → enable, Apply
+   - Interfaces > Assignments → assign `wg0` to `opt1`
+   - Interfaces > [OPT1] → enable, save
+5. **DHCP DNS Option** (not automatable via tofu — Dnsmasq DHCP not in opnsense provider):
+   - Services > Dnsmasq DNS & DHCP > DHCP options
+   - Add: Option `dns-server [6]`, Value `<Pi-hole IP>` (e.g., `10.0.0.2`), Interface LAN
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
