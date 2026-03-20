@@ -18,21 +18,12 @@ bridges = [
 cloud_vms = {
   k3s-master = {
     vmid      = 1000
-    cores     = 2
-    memory    = 4096
+    cores     = 4
+    memory    = 8192
     ip        = "10.0.10.1"
     disk_size = 32
     os_key    = "noble"
     k3s_role  = "server"
-  }
-  k3s-worker-1 = {
-    vmid      = 1001
-    cores     = 4
-    memory    = 8192
-    ip        = "10.0.100.1"
-    disk_size = 32
-    os_key    = "noble"
-    k3s_role  = "agent"
   }
 }
 
