@@ -6,8 +6,24 @@ server:
     type: ClusterIP
 
   ingress:
-    enabled: true
-    controller: generic
+    enabled: false
+
+extraObjects:
+  - apiVersion: traefik.io/v1alpha1
+    kind: IngressRoute
+    metadata:
+      name: argocd-server
+      namespace: argocd
+    spec:
+      entryPoints:
+        - websecure
+      routes:
+        - match: Host(`argocd.${cluster_domain}`)
+          kind: Rule
+          services:
+            - name: argocd-server
+              port: 80
+      tls: {}
 
 configs:
   clusterCredentials:

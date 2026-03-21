@@ -9,17 +9,15 @@ resource "helm_release" "argocd" {
   timeout          = 600
 
   values = [
-    file(var.helm_values_path)
+    templatefile(var.helm_values_path, {
+      cluster_domain = var.cluster_domain
+    })
   ]
 
   # Dynamic cluster-specific overrides
   set = [
     {
       name  = "global.domain"
-      value = "argocd.${var.cluster_domain}"
-    },
-    {
-      name  = "server.ingress.hostname"
       value = "argocd.${var.cluster_domain}"
     },
     {

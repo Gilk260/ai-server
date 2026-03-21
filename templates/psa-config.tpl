@@ -26,5 +26,6 @@ plugins:
           - velero
           - monitoring
           - victoria-metrics
+          - openbao
           - kyverno
           - trivy-system
