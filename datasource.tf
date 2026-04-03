@@ -1,3 +1,3 @@
-data "proxmox_virtual_environment_node" "server" {
-  node_name = var.proxmox_node_name
+data "proxmox_virtual_environment_node" "infra" {
+  node_name = var.infra_node_name
 }

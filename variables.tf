@@ -9,9 +9,9 @@ variable "cluster_domain" {
   description = "Domain for cluster services (e.g., dev.g.recouvreux.fr)"
 }
 
-variable "proxmox_node_name" {
+variable "infra_node_name" {
   type        = string
-  description = "Proxmox node name"
+  description = "Proxmox node for shared infrastructure (OPNsense, Pi-hole, bridges)"
 }
 
 variable "vm_datastore_id" {
@@ -81,31 +81,35 @@ variable "k3s_version" {
 # --- Cloud-init VMs ---
 variable "cloud_vms" {
   type = map(object({
-    vmid      = number
-    cores     = number
-    memory    = number
-    ip        = string
-    mgmt_ip   = optional(string)
-    disk_size = number
-    os_key    = string
-    k3s_role  = optional(string)
-    on_boot   = optional(bool, true)
-    packages  = optional(list(string), [])
-    runcmd    = optional(list(string), [])
+    node_name    = string
+    vmid         = number
+    cores        = number
+    memory       = number
+    ip           = string
+    mgmt_ip      = optional(string)
+    disk_size    = number
+    os_key       = string
+    datastore_id = optional(string)
+    k3s_role     = optional(string)
+    on_boot      = optional(bool, true)
+    packages     = optional(list(string), [])
+    runcmd       = optional(list(string), [])
   }))
 }
 
 # --- ISO VMs (optional) ---
 variable "iso_vms" {
   type = map(object({
-    vmid        = number
-    cores       = number
-    memory      = number
-    disk_size   = number
-    os_key      = string
-    bridges     = list(string)
-    passthrough = optional(bool, false)
-    pci_id      = optional(string)
+    node_name    = string
+    vmid         = number
+    cores        = number
+    memory       = number
+    disk_size    = number
+    os_key       = string
+    datastore_id = optional(string)
+    bridges      = list(string)
+    passthrough  = optional(bool, false)
+    pci_id       = optional(string)
   }))
   default = {}
 }

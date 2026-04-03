@@ -1,9 +1,9 @@
-cluster_name      = "prod"
-cluster_domain    = "prod.g.recouvreux.fr"
-proxmox_node_name = "prod"
-vm_datastore_id   = "local-zfs"
-network_subnet    = "10.1.0.0/16"
-gateway_ip        = "10.1.0.1"
+cluster_name    = "prod"
+cluster_domain  = "prod.g.recouvreux.fr"
+infra_node_name = "prod"
+vm_datastore_id = "local-zfs"
+network_subnet  = "10.1.0.0/16"
+gateway_ip      = "10.1.0.1"
 
 wireguard_subnet = "172.1.2.0/24"
 k3s_version      = "v1.31.4+k3s1"
@@ -18,6 +18,7 @@ bridges = [
 
 cloud_vms = {
   k3s = {
+    node_name = "prod"
     vmid      = 200
     cores     = 4
     memory    = 10240

@@ -2,7 +2,7 @@ resource "proxmox_virtual_environment_vm" "iso" {
   for_each = var.iso_vms
 
   name      = each.key
-  node_name = var.node_name
+  node_name = each.value.node_name
   vm_id     = each.value.vmid
   tags      = ["terraform", "iso", var.cluster_name]
 
@@ -20,14 +20,14 @@ resource "proxmox_virtual_environment_vm" "iso" {
   }
 
   disk {
-    datastore_id = var.vm_datastore_id
+    datastore_id = coalesce(each.value.datastore_id, var.vm_datastore_id)
     interface    = "scsi0"
     size         = each.value.disk_size
     file_format  = "raw"
   }
 
   cdrom {
-    file_id = var.image_ids[each.value.os_key]
+    file_id = var.image_ids["${each.value.os_key}/${each.value.node_name}"]
   }
 
   boot_order = ["scsi0", "ide3", "net0"]

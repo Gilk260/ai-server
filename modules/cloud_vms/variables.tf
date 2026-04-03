@@ -1,20 +1,18 @@
-variable "node_name" {
-  type = string
-}
-
 variable "cloud_vms" {
   type = map(object({
-    vmid      = number
-    cores     = number
-    memory    = number
-    ip        = string
-    mgmt_ip   = optional(string)
-    disk_size = number
-    os_key    = string
-    k3s_role  = optional(string)
-    on_boot   = optional(bool, true)
-    packages  = optional(list(string), [])
-    runcmd    = optional(list(string), [])
+    node_name    = string
+    vmid         = number
+    cores        = number
+    memory       = number
+    ip           = string
+    mgmt_ip      = optional(string)
+    disk_size    = number
+    os_key       = string
+    datastore_id = optional(string)
+    k3s_role     = optional(string)
+    on_boot      = optional(bool, true)
+    packages     = optional(list(string), [])
+    runcmd       = optional(list(string), [])
   }))
 }
 
@@ -51,7 +49,7 @@ variable "templates_path" {
 
 variable "image_ids" {
   type        = map(string)
-  description = "Map of os_key => Proxmox file ID for cloud images"
+  description = "Map of 'os_key/node_name' => Proxmox file ID for cloud images"
 }
 
 variable "lan_bridge" {

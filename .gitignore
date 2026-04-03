@@ -50,3 +50,6 @@ terraform.tfstate.d/
 
 # Kubeconfig (fetched dynamically)
 k3s-config.yaml
+
+# Makefile plan output
+.plan-*.tfplan

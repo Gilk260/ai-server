@@ -1,13 +1,8 @@
-# --- Image ID map for modules ---
-locals {
-  image_ids = { for k, v in proxmox_virtual_environment_download_file.image : k => v.id }
-}
-
 # --- Network ---
 module "network" {
   source = "./modules/network"
 
-  node_name = data.proxmox_virtual_environment_node.server.node_name
+  node_name = data.proxmox_virtual_environment_node.infra.node_name
   bridges   = var.bridges
 }
 
@@ -15,13 +10,13 @@ module "network" {
 module "opnsense" {
   source = "./modules/opnsense"
 
-  node_name        = data.proxmox_virtual_environment_node.server.node_name
+  node_name        = data.proxmox_virtual_environment_node.infra.node_name
   opnsense_vm      = var.opnsense_vm
   network_subnet   = var.network_subnet
   wireguard_subnet = var.wireguard_subnet
   cluster_name     = var.cluster_name
 
-  opnsense_iso_file_id        = local.image_ids["opnsense"]
+  opnsense_iso_file_id        = local.image_ids["opnsense/${var.infra_node_name}"]
   lan_bridge                  = "vmbr1"
   vm_datastore_id             = var.vm_datastore_id
   wireguard_client_public_key = var.wireguard_client_public_key
@@ -33,7 +28,7 @@ module "opnsense" {
 module "pihole" {
   source = "./modules/pihole"
 
-  node_name            = data.proxmox_virtual_environment_node.server.node_name
+  node_name            = data.proxmox_virtual_environment_node.infra.node_name
   pihole_ct            = var.pihole_ct
   gateway_ip           = var.gateway_ip
   network_subnet       = var.network_subnet
@@ -41,7 +36,7 @@ module "pihole" {
   cluster_domain       = var.cluster_domain
   ssh_key              = var.ssh_key
   proxmox_ip           = local.proxmox_ip
-  lxc_template_file_id = local.image_ids["debian-lxc"]
+  lxc_template_file_id = local.image_ids["debian-lxc/${var.infra_node_name}"]
   lan_bridge           = "vmbr1"
   vm_datastore_id      = var.vm_datastore_id
 
@@ -52,7 +47,6 @@ module "pihole" {
 module "cloud_vms" {
   source = "./modules/cloud_vms"
 
-  node_name              = data.proxmox_virtual_environment_node.server.node_name
   cloud_vms              = var.cloud_vms
   ssh_key                = var.ssh_key
   gateway_ip             = var.gateway_ip
@@ -75,7 +69,6 @@ module "cloud_vms" {
 module "iso_vms" {
   source = "./modules/iso_vms"
 
-  node_name       = data.proxmox_virtual_environment_node.server.node_name
   iso_vms         = var.iso_vms
   cluster_name    = var.cluster_name
   image_ids       = local.image_ids

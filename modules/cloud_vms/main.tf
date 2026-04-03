@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_file" "cloud_config" {
 
   content_type = "snippets"
   datastore_id = "local"
-  node_name    = var.node_name
+  node_name    = each.value.node_name
 
   source_raw {
     data = templatefile("${var.templates_path}/user-data.tpl", {
@@ -39,7 +39,7 @@ resource "proxmox_virtual_environment_vm" "cloud" {
   for_each = var.cloud_vms
 
   name      = each.key
-  node_name = var.node_name
+  node_name = each.value.node_name
   vm_id     = each.value.vmid
   tags      = ["terraform", "k3s", var.cluster_name]
 
@@ -80,8 +80,8 @@ resource "proxmox_virtual_environment_vm" "cloud" {
   }
 
   disk {
-    datastore_id = var.vm_datastore_id
-    file_id      = var.image_ids[each.value.os_key]
+    datastore_id = coalesce(each.value.datastore_id, var.vm_datastore_id)
+    file_id      = var.image_ids["${each.value.os_key}/${each.value.node_name}"]
     interface    = "scsi0"
     size         = each.value.disk_size
     ssd          = true
@@ -89,12 +89,12 @@ resource "proxmox_virtual_environment_vm" "cloud" {
   }
 
   efi_disk {
-    datastore_id = var.vm_datastore_id
+    datastore_id = coalesce(each.value.datastore_id, var.vm_datastore_id)
     type         = "4m"
   }
 
   initialization {
-    datastore_id = var.vm_datastore_id
+    datastore_id = coalesce(each.value.datastore_id, var.vm_datastore_id)
     ip_config {
       ipv4 {
         address = "${each.value.ip}/${local.prefix_length}"

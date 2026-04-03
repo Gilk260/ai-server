@@ -1,8 +1,8 @@
-cluster_name      = "dev"
-cluster_domain    = "dev.g.recouvreux.fr"
-proxmox_node_name = "dev"
-network_subnet    = "10.0.0.0/16"
-gateway_ip        = "10.0.0.1"
+cluster_name    = "dev"
+cluster_domain  = "dev.g.recouvreux.fr"
+infra_node_name = "cp-dev-001"
+network_subnet  = "10.0.0.0/16"
+gateway_ip      = "10.0.0.1"
 
 wireguard_subnet = "172.1.1.0/24"
 k3s_version      = "v1.31.4+k3s1"
@@ -17,6 +17,7 @@ bridges = [
 
 cloud_vms = {
   k3s-master = {
+    node_name = "cp-dev-001"
     vmid      = 1000
     cores     = 4
     memory    = 8192

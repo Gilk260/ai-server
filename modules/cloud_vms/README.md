@@ -30,11 +30,11 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cloud_vms"></a> [cloud\_vms](#input\_cloud\_vms) | n/a | <pre>map(object({<br/>    vmid      = number<br/>    cores     = number<br/>    memory    = number<br/>    ip        = string<br/>    mgmt_ip   = optional(string)<br/>    disk_size = number<br/>    os_key    = string<br/>    k3s_role  = optional(string)<br/>    on_boot   = optional(bool, true)<br/>    packages  = optional(list(string), [])<br/>    runcmd    = optional(list(string), [])<br/>  }))</pre> | n/a | yes |
+| <a name="input_cloud_vms"></a> [cloud\_vms](#input\_cloud\_vms) | n/a | <pre>map(object({<br/>    node_name    = string<br/>    vmid         = number<br/>    cores        = number<br/>    memory       = number<br/>    ip           = string<br/>    mgmt_ip      = optional(string)<br/>    disk_size    = number<br/>    os_key       = string<br/>    datastore_id = optional(string)<br/>    k3s_role     = optional(string)<br/>    on_boot      = optional(bool, true)<br/>    packages     = optional(list(string), [])<br/>    runcmd       = optional(list(string), [])<br/>  }))</pre> | n/a | yes |
 | <a name="input_cluster_domain"></a> [cluster\_domain](#input\_cluster\_domain) | n/a | `string` | n/a | yes |
 | <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | n/a | `string` | n/a | yes |
 | <a name="input_gateway_ip"></a> [gateway\_ip](#input\_gateway\_ip) | n/a | `string` | n/a | yes |
-| <a name="input_image_ids"></a> [image\_ids](#input\_image\_ids) | Map of os\_key => Proxmox file ID for cloud images | `map(string)` | n/a | yes |
+| <a name="input_image_ids"></a> [image\_ids](#input\_image\_ids) | Map of 'os\_key/node\_name' => Proxmox file ID for cloud images | `map(string)` | n/a | yes |
 | <a name="input_k3s_mgmt_ip"></a> [k3s\_mgmt\_ip](#input\_k3s\_mgmt\_ip) | K3s server management IP (for kubeconfig fetch) | `string` | `null` | no |
 | <a name="input_k3s_server_ip"></a> [k3s\_server\_ip](#input\_k3s\_server\_ip) | K3s server IP (for agent nodes to join) | `string` | `null` | no |
 | <a name="input_k3s_version"></a> [k3s\_version](#input\_k3s\_version) | n/a | `string` | n/a | yes |
@@ -42,7 +42,6 @@ No modules.
 | <a name="input_lan_bridge"></a> [lan\_bridge](#input\_lan\_bridge) | n/a | `string` | `"vmbr1"` | no |
 | <a name="input_mgmt_bridge"></a> [mgmt\_bridge](#input\_mgmt\_bridge) | Management NIC bridge (e.g., vmbr0) | `string` | `"vmbr0"` | no |
 | <a name="input_network_subnet"></a> [network\_subnet](#input\_network\_subnet) | Private network CIDR (for IP address mask, e.g., 10.0.0.0/16) | `string` | n/a | yes |
-| <a name="input_node_name"></a> [node\_name](#input\_node\_name) | n/a | `string` | n/a | yes |
 | <a name="input_proxmox_ip"></a> [proxmox\_ip](#input\_proxmox\_ip) | Proxmox host IP (used as SSH jump host when no mgmt IP) | `string` | n/a | yes |
 | <a name="input_ssh_key"></a> [ssh\_key](#input\_ssh\_key) | n/a | `string` | n/a | yes |
 | <a name="input_templates_path"></a> [templates\_path](#input\_templates\_path) | Absolute path to the templates/ directory | `string` | n/a | yes |

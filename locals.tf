@@ -20,4 +20,13 @@ locals {
     for name, vm in var.cloud_vms : vm.mgmt_ip
     if vm.k3s_role == "server" && vm.mgmt_ip != null
   ][0], null)
+
+  # Unique node names from VM definitions
+  vm_nodes = distinct(concat(
+    [for k, v in var.cloud_vms : v.node_name],
+    [for k, v in var.iso_vms : v.node_name],
+  ))
+
+  # All nodes: infra + VM (may overlap, distinct handles it)
+  all_nodes = distinct(concat([var.infra_node_name], local.vm_nodes))
 }
