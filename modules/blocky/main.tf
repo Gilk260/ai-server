@@ -113,7 +113,7 @@ resource "terraform_data" "blocky_install" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      ssh -o StrictHostKeyChecking=no root@${var.proxmox_ip} bash <<'REMOTE'
+      cat > /tmp/blocky-install.sh << 'SCRIPT'
       set -e
       CT_ID=${var.blocky_ct.vmid}
 
@@ -126,7 +126,7 @@ resource "terraform_data" "blocky_install" {
         apt-get update && apt-get install -y curl
 
         BLOCKY_VERSION="v0.24"
-        curl -sSL "https://github.com/0xERR0R/blocky/releases/download/$${BLOCKY_VERSION}/blocky_$${BLOCKY_VERSION}_Linux_x86_64.tar.gz" | tar -xz -C /usr/local/bin blocky
+        curl -sSL "https://github.com/0xERR0R/blocky/releases/download/$BLOCKY_VERSION/blocky_$${BLOCKY_VERSION}_Linux_x86_64.tar.gz" | tar -xz -C /usr/local/bin blocky
         chmod +x /usr/local/bin/blocky
       '
 
@@ -155,7 +155,9 @@ EOF'
       pct exec $CT_ID -- systemctl enable --now blocky
 
       echo "Blocky installed and running."
-      REMOTE
+      SCRIPT
+      ssh -o StrictHostKeyChecking=no root@${var.proxmox_ip} bash < /tmp/blocky-install.sh
+      rm -f /tmp/blocky-install.sh
       EOT
   }
 }
