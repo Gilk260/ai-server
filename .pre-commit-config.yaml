@@ -1,0 +1,34 @@
+exclude: '^(orleans|paris)/'
+
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.105.0
+    hooks:
+      - id: terraform_fmt
+
+      - id: terraform_validate
+        args:
+          - --hook-config=--retry-once-with-cleanup=true
+
+      - id: terraform_tflint
+        name: terraform_tflint (root)
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+        exclude: '^modules/'
+
+      - id: terraform_tflint
+        name: terraform_tflint (modules)
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/modules/.tflint.hcl
+        files: '^modules/'
+
+      - id: terraform_trivy
+        args:
+          - --args=--severity=HIGH,CRITICAL
+          - --args=--exit-code=1
+
+      - id: terraform_docs
+        args:
+          - --hook-config=--path-to-file=README.md
+          - --hook-config=--add-to-existing-file=true
+          - --hook-config=--create-file-if-not-exist=true
