@@ -7,8 +7,10 @@ Creates the OPNsense firewall VM and manages firewall rules, NAT, and WireGuard 
 After the OPNsense VM boots and the initial wizard is complete:
 
 1. **WAN Interface**: Set static IP, uncheck "Block private networks" and "Block bogon networks"
-2. **LAN Interface**: Set IP to gateway (e.g., `10.0.0.1/16`), enable DHCP range
-3. **API Access**: System > Access > Users > root > API keys > Create. Add key/secret to `*.secret.tfvars`
+2. **LAN Interface**: Set IP to gateway (e.g., `10.0.0.1/16`), enable DHCP range. **Do NOT create a gateway for LAN** — OPNsense IS the gateway. A LAN gateway will override the WAN default route and break internet routing.
+3. **WAN Gateway**: Verify System > Gateways > Configuration shows only a WAN gateway (e.g., `192.168.1.1`). If a LAN_GW exists, delete it.
+4. **Enable HTTPS**: System > Settings > Administration > Protocol > HTTPS
+5. **API Access**: System > Access > Users > root > API keys > Create. Add key/secret to `*.secret.tfvars`
 4. **WireGuard Interface Assignment** (after tofu deploys WireGuard):
    - VPN > WireGuard > General → enable, Apply
    - Interfaces > Assignments → assign `wg0` to `opt1`
