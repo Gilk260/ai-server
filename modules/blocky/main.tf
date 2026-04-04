@@ -1,7 +1,7 @@
 locals {
   prefix_length = split("/", var.network_subnet)[1]
 
-  blocky_config = yamlencode({
+  blocky_config_b64 = base64encode(yamlencode({
     ports = {
       dns  = 53
       http = 4000
@@ -34,7 +34,7 @@ locals {
       enable = true
       path   = "/metrics"
     }
-  })
+  }))
 }
 
 resource "proxmox_virtual_environment_container" "blocky" {
@@ -108,7 +108,7 @@ resource "terraform_data" "blocky_install" {
 
   triggers_replace = [
     proxmox_virtual_environment_container.blocky.vm_id,
-    sha256(local.blocky_config),
+    sha256(local.blocky_config_b64),
   ]
 
   provisioner "local-exec" {
@@ -132,9 +132,9 @@ resource "terraform_data" "blocky_install" {
 
       echo "Writing Blocky config..."
       pct exec $CT_ID -- mkdir -p /etc/blocky
-      pct exec $CT_ID -- sh -c "cat > /etc/blocky/config.yml << '"'"'BLOCKY_EOF'"'"'
-${local.blocky_config}
-BLOCKY_EOF'
+      echo '${local.blocky_config_b64}' | base64 -d > /tmp/blocky-config.yml
+      pct push $CT_ID /tmp/blocky-config.yml /etc/blocky/config.yml
+      rm -f /tmp/blocky-config.yml
 
       echo "Creating systemd service..."
       pct exec $CT_ID -- sh -c 'cat > /etc/systemd/system/blocky.service << EOF
