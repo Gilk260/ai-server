@@ -8,22 +8,8 @@ server:
   ingress:
     enabled: false
 
-extraObjects:
-  - apiVersion: traefik.io/v1alpha1
-    kind: IngressRoute
-    metadata:
-      name: argocd-server
-      namespace: argocd
-    spec:
-      entryPoints:
-        - websecure
-      routes:
-        - match: Host(`argocd.${cluster_domain}`)
-          kind: Rule
-          services:
-            - name: argocd-server
-              port: 80
-      tls: {}
+  # IngressRoute moved to infra-gitops (cluster-issuer app)
+  # to avoid chicken-and-egg: Traefik CRDs don't exist when ArgoCD is first deployed
 
 configs:
   clusterCredentials:
