@@ -47,12 +47,12 @@ Destructive actions (`apply`, `destroy`) require typing the environment name to 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_argocd"></a> [argocd](#module\_argocd) | ./modules/argocd | n/a |
+| <a name="module_blocky"></a> [blocky](#module\_blocky) | ./modules/blocky | n/a |
 | <a name="module_cloud_vms"></a> [cloud\_vms](#module\_cloud\_vms) | ./modules/cloud_vms | n/a |
 | <a name="module_iso_vms"></a> [iso\_vms](#module\_iso\_vms) | ./modules/iso_vms | n/a |
 | <a name="module_monitoring"></a> [monitoring](#module\_monitoring) | ./modules/monitoring | n/a |
 | <a name="module_network"></a> [network](#module\_network) | ./modules/network | n/a |
 | <a name="module_opnsense"></a> [opnsense](#module\_opnsense) | ./modules/opnsense | n/a |
-| <a name="module_pihole"></a> [pihole](#module\_pihole) | ./modules/pihole | n/a |
 
 ## Resources
 
@@ -65,6 +65,7 @@ Destructive actions (`apply`, `destroy`) require typing the environment name to 
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_blocky_ct"></a> [blocky\_ct](#input\_blocky\_ct) | --- Blocky (DNS ad-blocker) --- | <pre>object({<br/>    vmid   = number<br/>    cores  = number<br/>    memory = number<br/>    disk   = number<br/>    ip     = string<br/>  })</pre> | n/a | yes |
 | <a name="input_bridges"></a> [bridges](#input\_bridges) | Proxmox network bridges to create | <pre>list(object({<br/>    name    = string<br/>    address = string<br/>    comment = optional(string, "")<br/>  }))</pre> | n/a | yes |
 | <a name="input_cloud_vms"></a> [cloud\_vms](#input\_cloud\_vms) | --- Cloud-init VMs --- | <pre>map(object({<br/>    node_name    = string<br/>    vmid         = number<br/>    cores        = number<br/>    memory       = number<br/>    ip           = string<br/>    mgmt_ip      = optional(string)<br/>    disk_size    = number<br/>    os_key       = string<br/>    datastore_id = optional(string)<br/>    k3s_role     = optional(string)<br/>    on_boot      = optional(bool, true)<br/>    packages     = optional(list(string), [])<br/>    runcmd       = optional(list(string), [])<br/>  }))</pre> | n/a | yes |
 | <a name="input_cluster_domain"></a> [cluster\_domain](#input\_cluster\_domain) | Domain for cluster services (e.g., dev.g.recouvreux.fr) | `string` | n/a | yes |
@@ -77,7 +78,6 @@ Destructive actions (`apply`, `destroy`) require typing the environment name to 
 | <a name="input_opnsense_api_secret"></a> [opnsense\_api\_secret](#input\_opnsense\_api\_secret) | n/a | `string` | n/a | yes |
 | <a name="input_opnsense_endpoint"></a> [opnsense\_endpoint](#input\_opnsense\_endpoint) | OPNsense API endpoint URL (e.g., https://10.0.0.1) | `string` | n/a | yes |
 | <a name="input_opnsense_vm"></a> [opnsense\_vm](#input\_opnsense\_vm) | --- OPNsense --- | <pre>object({<br/>    vmid      = number<br/>    cores     = number<br/>    memory    = number<br/>    disk_size = number<br/>  })</pre> | n/a | yes |
-| <a name="input_pihole_ct"></a> [pihole\_ct](#input\_pihole\_ct) | --- Pi-hole --- | <pre>object({<br/>    vmid   = number<br/>    cores  = number<br/>    memory = number<br/>    disk   = number<br/>    ip     = string<br/>  })</pre> | n/a | yes |
 | <a name="input_ssh_key"></a> [ssh\_key](#input\_ssh\_key) | --- SSH --- | `string` | n/a | yes |
 | <a name="input_virtual_environment_endpoint"></a> [virtual\_environment\_endpoint](#input\_virtual\_environment\_endpoint) | --- Proxmox connection (sensitive) --- | `string` | n/a | yes |
 | <a name="input_virtual_environment_password"></a> [virtual\_environment\_password](#input\_virtual\_environment\_password) | n/a | `string` | n/a | yes |
@@ -93,9 +93,9 @@ Destructive actions (`apply`, `destroy`) require typing the environment name to 
 | Name | Description |
 |------|-------------|
 | <a name="output_argocd_namespace"></a> [argocd\_namespace](#output\_argocd\_namespace) | n/a |
+| <a name="output_blocky_ip"></a> [blocky\_ip](#output\_blocky\_ip) | n/a |
 | <a name="output_cloud_vm_ips"></a> [cloud\_vm\_ips](#output\_cloud\_vm\_ips) | n/a |
 | <a name="output_k3s_server_ip"></a> [k3s\_server\_ip](#output\_k3s\_server\_ip) | n/a |
 | <a name="output_monitoring_namespace"></a> [monitoring\_namespace](#output\_monitoring\_namespace) | n/a |
-| <a name="output_pihole_ip"></a> [pihole\_ip](#output\_pihole\_ip) | n/a |
 | <a name="output_wireguard_server_public_key"></a> [wireguard\_server\_public\_key](#output\_wireguard\_server\_public\_key) | n/a |
 <!-- END_TF_DOCS -->

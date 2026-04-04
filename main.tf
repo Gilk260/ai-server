@@ -24,16 +24,17 @@ module "opnsense" {
   depends_on = [module.network]
 }
 
-# --- Pi-hole ---
-module "pihole" {
-  source = "./modules/pihole"
+# --- Blocky (DNS ad-blocker, replaces Pi-hole) ---
+module "blocky" {
+  source = "./modules/blocky"
 
   node_name            = data.proxmox_virtual_environment_node.infra.node_name
-  pihole_ct            = var.pihole_ct
+  blocky_ct            = var.blocky_ct
   gateway_ip           = var.gateway_ip
   network_subnet       = var.network_subnet
   cluster_name         = var.cluster_name
   cluster_domain       = var.cluster_domain
+  k3s_server_ip        = local.k3s_server_ip
   ssh_key              = var.ssh_key
   proxmox_ip           = local.proxmox_ip
   lxc_template_file_id = local.image_ids["debian-lxc/${var.infra_node_name}"]

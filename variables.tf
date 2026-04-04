@@ -124,8 +124,8 @@ variable "opnsense_vm" {
   })
 }
 
-# --- Pi-hole ---
-variable "pihole_ct" {
+# --- Blocky (DNS ad-blocker) ---
+variable "blocky_ct" {
   type = object({
     vmid   = number
     cores  = number

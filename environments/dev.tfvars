@@ -35,11 +35,11 @@ opnsense_vm = {
   disk_size = 32
 }
 
-pihole_ct = {
+blocky_ct = {
   vmid   = 101
   cores  = 1
-  memory = 512
-  disk   = 8
+  memory = 256
+  disk   = 4
   ip     = "10.0.0.2"
 }
 

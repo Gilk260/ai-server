@@ -6,8 +6,8 @@ output "cloud_vm_ips" {
   value = module.cloud_vms.vm_ips
 }
 
-output "pihole_ip" {
-  value = module.pihole.pihole_ip
+output "blocky_ip" {
+  value = module.blocky.blocky_ip
 }
 
 output "monitoring_namespace" {
